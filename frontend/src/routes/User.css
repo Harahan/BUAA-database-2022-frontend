@@ -1,0 +1,13 @@
+.ant-table-cell {
+    background-color: black !important;
+    color:white;
+}
+
+
+.ant-table-row-expand-icon{
+    color:black;
+}
+
+.ant-table-column-title {
+    color:white
+}
