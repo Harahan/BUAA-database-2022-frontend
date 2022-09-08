@@ -1,0 +1,26 @@
+[
+    {
+        "answer": "",
+        "history_type": "搜索题目",
+        "practice_time": 0,
+        "question_id": 98,
+        "score": -1.0,
+        "table_id": 1
+    },
+    {
+        "answer": "B",
+        "history_type": "小练习",
+        "practice_time": 1,
+        "question_id": 1022,
+        "score": 10.0,
+        "table_id": 2
+    },
+    {
+        "answer": "B",
+        "history_type": "小练习",
+        "practice_time": 1,
+        "question_id": 213,
+        "score": 0.0,
+        "table_id": 3
+    }
+]
