@@ -1,6 +1,8 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
+import axios from 'axios'
 import Navbar from '../components/Navbar'
-import {Table, Row, Button, Input} from 'antd'
+import {Table, Row, Button, Input, Modal, Space } from 'antd'
+import qs from 'qs'
 
 const columns = [
   {
@@ -45,41 +47,168 @@ const columns = [
   },
 ];
 
-const data = [
-    {
-        "A": "西昌卫星发射中心",
-        "B": "酒泉卫星发射中心",
-        "C": "太原卫星发射中心",
-        "D": "海南文昌航天发射场",
-        "answer": "B",
-        "provider": "原始题库",
-        "question": "我国载人飞船的发射场为______。\nA.西昌卫星发射中心\nB.酒泉卫星发射中心\nC.太原卫星发射中心\nD.海南文昌航天发射场",
-        "question_id": 1,
-        "select_question": "我国载人飞船的发射场为______。",
-        "type": "客观题"
-    },
-    {
-        "A": "11",
-        "B": "15",
-        "C": "16",
-        "D": "18",
-        "answer": "C",
-        "provider": "原始题库",
-        "question": "国际空间站是人类历史上最庞大的航天工程，共有______个国家参与研制。\nA.11\nB.15\nC.16\nD.18",
-        "question_id": 2,
-        "select_question": "国际空间站是人类历史上最庞大的航天工程，共有______个国家参与研制。",
-        "type": "客观题"
-    }]
-
-
 function Bank() {
+  const [data, setData] = useState()
+  const [open, setOpen] = useState(false)
+  const [question, setQuestion] = useState()
+  const [ans_a, setAns_a] = useState()
+  const [ans_b, setAns_b] = useState()
+  const [ans_c, setAns_c] = useState()
+  const [ans_d, setAns_d] = useState()
+  const [ans, setAns] = useState()
+  const [provider, setProvider] = useState()
+  const [type, setType] = useState()
+  const [select, setSelect] = useState()
+  const [cur_ans, setCur_ans] = useState()
+
+
+  const get_question = (() => {
+    axios.get('/forward/getquestion').then(res => {
+      console.log(res)
+      setData(res.data)
+    }, err => {
+      console.log(err)
+    })
+  })
+
+  useEffect(() => {
+    let ignore = false;
+    if(!ignore) get_question()
+    return () => {ignore = true; }
+  },[])
+
+  const showModal = () => {
+    setOpen(true)
+  }
+
+  const hideModal = () => {
+    console.log('hiding')
+    setOpen(false)
+  }
+
+  const add_question = () => {
+    axios.put('/forward/addquestion/',{
+        "A":ans_a,
+        "B":ans_b,
+        "C":ans_c,
+        "D":ans_d,
+        "answer":ans,
+        "provider":provider,
+        "question":question,
+        "type":type,
+        "select_question":select
+    }).then(res=>{
+      hideModal()
+      get_question()
+    },err=>{
+      console.log(err)
+      hideModal()
+    })
+  }
+
+
+  const change_ans = (question_id) => {
+    let params = new URLSearchParams();
+    params.append('answer',cur_ans)
+    console.log('changing answer')
+    axios.post(
+      '/forward/changeans/'+ question_id + '/',
+      params)
+      .then(res => {
+      get_question()
+      },err => {
+      console.log(err)
+      })
+  }
+
   return (
     <div>
       <Navbar/>
       <div className='AddBar'>
-        <Button>
+        <Button onClick={showModal}>
           ADD
         </Button>
+        <Modal
+            title="增加题目"
+            open={open}
+            onOk={add_question}
+            onCancel={hideModal}
+            okText="ok"
+            cancelText="cancel"
+        >
+        <Space 
+            direction="vertical"
+            style={{ width: '100%' }}
+            size="large">
+              <Input
+              onChange={(e)=>{
+                setQuestion(e.target.value)
+              }}
+              size="middle"
+              placeholder="题目"
+            />
+            <Input
+              onChange={(e)=>{
+                setAns_a(e.target.value)
+              }}
+              size="middle"
+              placeholder='A'
+            />
+            <Input
+              onChange={(e)=>{
+                setAns_b(e.target.value)
+              }}
+              size="middle"
+              placeholder='B'
+            />
+            <Input
+              onChange={(e)=>{
+                setAns_c(e.target.value)
+              }}
+              size="middle"
+              placeholder='C'
+            />
+            <Input
+              onChange={(e)=>{
+                setAns_d(e.target.value)
+              }}
+              size="middle"
+              placeholder='D'
+            />
+            <Input
+              onChange={(e)=>{
+                setAns(e.target.value)
+              }}
+              size="middle"
+              placeholder='answer'
+              style={{ width: '100%' }}
+            />
+            <Input
+              onChange={(e)=>{
+                setProvider(e.target.value)
+              }}
+              size="middle"
+              placeholder='provider'
+              style={{ width: '100%' }}
+            />
+            <Input
+              onChange={(e)=>{
+                setType(e.target.value)
+              }}
+              size="middle"
+              placeholder='type'
+              style={{ width: '100%' }}
+            />
+            <Input
+              onChange={(e)=>{
+                setSelect(e.target.value)
+              }}
+              size="middle"
+              placeholder='select_question'
+              style={{ width: '100%' }}
+            />
+            </Space>
+        </Modal>
       </div>
       <div className='table'>
         <Table 
@@ -93,8 +222,14 @@ function Bank() {
           <p style={{ margin: 12 }}> type: {record.type} </p>
           <p style={{ margin: 12 }}> provider: {record.provider} </p>
           <Input.Group compact>
-            <Input style={{ width: 'calc(100% - 200px)' }} placeholder="修改答案为" />
-            <Button type="primary">Submit</Button>
+            <Input 
+            style={{ width: 'calc(100% - 200px)' }} 
+            placeholder="change the answer to " 
+            onChange={(e)=>{
+              setCur_ans(e.target.value)
+            }}
+            />
+            <Button type="primary" onClick={() => change_ans(record.question_id)}>Submit</Button>
           </Input.Group>
           </Row>,
         }}
@@ -105,5 +240,6 @@ function Bank() {
     </div>
   )
 }
+
 
 export default Bank

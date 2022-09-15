@@ -1,6 +1,36 @@
-import React from 'react'
+import React, { useState ,useEffect } from 'react'
 import Navbar from '../components/Navbar'
-import {Table ,Input} from 'antd'
+import {Table ,Input, Typography} from 'antd'
+import axios from 'axios';
+import { reduceRight } from 'lodash-es';
+
+const { Search } = Input
+const {Text, Link} = Typography;
+
+
+function History() {
+  const [data, setData] = useState()
+
+  const get_history = (()=>{
+    axios.get('/forward/gethistory').then(res => {
+      console.log(res)
+      setData(res.data)
+    },err => {
+      console.log(err)
+    })
+  })
+  
+  const delete_history = (his_id) => {
+  console.log(his_id)
+  axios.delete('/forward/deletehis/'+his_id).then(
+    res => {
+      get_history()
+      console.log(res)
+    },err =>{
+      console.log(err)
+    }
+  )
+}
 
 const columns = [
   {
@@ -55,44 +85,36 @@ const columns = [
     title:'Action',
     dataIndex: '',
     key:'delete',
-    render:() => <a>Delete</a>
+    render:(text,record) => (
+      <Link 
+      onClick={() => delete_history(record.table_id)}
+      >
+      delete
+      </Link>
+    ),
   }
 ];
 
+    useEffect(() => {
+    let ignore = false;
+    if(!ignore) get_history()
+    return () => {ignore = true; }
+  },[])
 
-const data = [
-    {
-        "answer": "",
-        "history_type": "搜索题目",
-        "practice_time": 0,
-        "question_id": 98,
-        "score": -1.0,
-        "table_id": 1
-    },
-    {
-        "answer": "B",
-        "history_type": "小练习",
-        "practice_time": 1,
-        "question_id": 1022,
-        "score": 10.0,
-        "table_id": 2
-    },
-    {
-        "answer": "B",
-        "history_type": "小练习",
-        "practice_time": 1,
-        "question_id": 213,
-        "score": 0.0,
-        "table_id": 3
+  const onSearch = (value) => {
+  console.log(value)
+  axios.get('/forward/searchhis/',{
+    params: {
+      search:value
     }
-]
+  }).then(res => {
+    console.log(res)
+    setData(res.data)
+  },err=>{
+    console.log(err)
+  })
+}
 
-const { Search } = Input
-
-const onSearch = (value) => console.log(value);
-
-
-function History() {
   return (
     <div>
       <Navbar/>
@@ -101,7 +123,7 @@ function History() {
           placeholder="input search text"
           onSearch={onSearch}
           enterButton="Search" 
-          size="large"
+          size="middle"
         />
       </div>
       <div className='table'>
