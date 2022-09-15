@@ -1,2 +1,2 @@
-# BUAA-database-2022
+# BUAA-database-2022-frontend
 .....
