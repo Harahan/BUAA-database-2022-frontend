@@ -1,4 +1,5 @@
 import { SearchOutlined, UserOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
 import { Space, Avatar, Badge } from 'antd';
 import "antd/dist/antd.css";
 import React from 'react';
@@ -12,9 +13,15 @@ export default function Navbar () {
             </div>
             <div className="MiddleBox">
                 <ul className="tabs">
-                    <li className="tabItem">HOME</li>
-                    <li className="tabItem">FOLLOW</li>
-                    <li className="tabItem">WRITE</li>
+                    <li className="tabItem">
+                        <Link className="link" to="/">HOME</Link>
+                    </li>
+                    <li className="tabItem">
+                        <Link className="link" to="/follow">FOLLOW</Link>
+                    </li>
+                    <li className="tabItem">
+                        <Link className="link" to="/write">WRITE</Link>
+                    </li>
                 </ul>
             </div>
             <div className="RightBox">
