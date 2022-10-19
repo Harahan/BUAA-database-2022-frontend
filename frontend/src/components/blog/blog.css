@@ -1,0 +1,7 @@
+.blogs {
+    flex-direction: column;
+}
+
+.post {
+    width: 100%;
+}

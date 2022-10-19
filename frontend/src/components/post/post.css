@@ -1,0 +1,84 @@
+.post {
+    width: 95%;
+    margin: 20px 25px 40px 25px;
+}
+
+.postImg {
+    width: 80%;
+    height: 300px;
+    border-radius: 6px;
+    object-fit: cover;
+}
+
+.postInfo {
+    width: 100%;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.postCategories {
+    margin-right: 0%;
+    margin-left: auto;
+    display: flex;
+    flex-direction: row;
+    width: 40%;
+}
+
+.postCategory {
+    margin-left: auto;
+    margin-right: 0%;
+}
+
+.profilePhoto {
+    width: 10%;
+}
+
+.AuthorProfile {
+    margin-left: 0%;
+}
+
+.authorName {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: large;
+    width: 25%;
+    margin-top: 0%;
+    font-weight: 530;
+}
+
+.followButton {
+    width: 30%;
+}
+
+.authorInfo {
+    width:100%;
+    display: flex;
+}
+
+.postTime {
+    width: 45%;
+    text-align: right;
+    font-style: italic;
+    color: gray;
+}
+
+.postTitle {
+    margin-top: 10px;
+    font-weight: 700;
+    font-family: 'Josefin Slab',sans-serif;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.postDigest {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 14px;
+    color: rgb(62, 59, 59);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    line-height: 24px;
+    margin-top: 10px;
+}

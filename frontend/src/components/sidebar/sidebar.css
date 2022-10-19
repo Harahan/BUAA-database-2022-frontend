@@ -1,3 +1,43 @@
 .Sidebar {
-    flex: 2;
+    flex: 6;
+    margin: 10px;
+    background-color: whitesmoke;
+    display: flex;
+    border-radius: 10px;
+    flex-direction: column;
+}
+
+.sidebarItem >p {
+    padding: 20px;
+}
+
+.sidebarItem {
+    padding-top: 10px;
+    width: 95%;
+    margin: 8px;
+    border-top: 1px solid grey;
+    display: flex;
+    font-family: 'Varela Round', sans-serif;
+    font-size: medium;
+}
+
+.sidebarTitle {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    flex:auto;
+    text-align: center;
+}
+
+.sidebarList {
+    width:100%;
+}
+
+.sidebarListItem {
+    width: 100%;
+    display: inline-block;
+    margin-top: 10px;
+    cursor: pointer;
+    text-align: center;
+        flex:auto;
 }

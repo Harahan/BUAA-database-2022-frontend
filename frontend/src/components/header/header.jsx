@@ -5,8 +5,8 @@ export default function header () {
     return (
         <div className='Header'>
             <div className='headerTitle'>
-                <span className='headerTitleitemUp'>xxx</span>
-                <span className='headerTitleitemDown'>Blog</span>
+                <span className='headerTitleitemUp'>Tiny Knowledge Shareing Platform</span>
+                <span className='headerTitleitemDown'>TKSP</span>
             </div>
             <img className='headerImg'
                 src={ wallpaper }
