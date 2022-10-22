@@ -1,0 +1,46 @@
+.postPadding {
+    padding: 18px;
+        padding-right: 0%;
+}
+
+.postImg {
+    width: 100%;
+    height: auto;
+    border-radius: 3px;
+}
+
+.postTitle {
+    margin: 10px;
+    font-size: 30px;
+    text-align: center;
+}
+
+.editBar {
+    padding-bottom: 1%;
+    display: flex;
+}
+
+.authorName {
+    margin-left: 1%;
+    width:13%;
+}
+
+.followButton {
+    margin-left: 0%;
+    width:8%;
+}
+
+.postTime{
+    margin-right: 0%;
+    width: 80%;
+}
+
+.editButton {
+    margin-left: 5%;
+    color:darkgray;
+}
+
+.deleteButton {
+    margin-left: 1%;
+    color:rgba(255, 0, 0, 0.553);
+}

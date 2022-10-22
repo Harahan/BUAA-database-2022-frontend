@@ -1,0 +1,9 @@
+.SinglePost {
+    display: flex;
+}
+.sidebar {
+    width: 25%;
+}
+.postObject {
+    width: 75%;
+}

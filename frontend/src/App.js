@@ -5,6 +5,7 @@ import Follow from './pages/follow/Follow'
 import Write from './pages/write/Write'
 import Login from './pages/login/Login'
 import WrappedRegistrationForm from './pages/login/register'
+import SinglePost from './pages/postpage/postpage'
 import {
     BrowserRouter as Router,
     Route,
@@ -22,6 +23,7 @@ function App() {
                 <Route exact path="/write" element={<Write />} />
                 <Route exact path="/login" element={<Login />} />
                 <Route exact path='/register' element={<WrappedRegistrationForm/>} />
+                <Route exact path='/postpage' element={<SinglePost/>} />
             </Routes>
         </Router>
     );
