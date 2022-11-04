@@ -1,6 +1,6 @@
 .postPadding {
     padding: 18px;
-        padding-right: 0%;
+    padding-right: 0%;
 }
 
 .postImg {
@@ -43,4 +43,16 @@
 .deleteButton {
     margin-left: 1%;
     color:rgba(255, 0, 0, 0.553);
+}
+
+.postContent {
+    color:rgb(38, 36, 36);
+    font-size: 18px;
+    line-height: 25px;
+}
+
+.postContent::first-letter {
+    font-size: 35px;
+    margin-left: 10px;
+    font-weight: 400;
 }

@@ -1,18 +1,34 @@
 import React from 'react'
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
-import { Button } from 'antd'
+import { Button, Comment, Avatar } from 'antd'
 import './postobject.css'
-import rhaenyra_targaryen from '../../assets/rhaenyra_targaryen.jpg'
 
-export default function Postobject () {
+
+export default function Postobject ( { authorName, releaseTime, categories, title, content, image } ) {
+    const ExampleComment = ( { children } ) => (
+        <Comment
+            actions={ [ <span key="comment-nested-reply-to">Reply to</span> ] }
+            author={ <a>Han Solo</a> }
+            avatar={ <Avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" /> }
+            content={
+                <p>
+                    We supply a series of design principles, practical patterns and high quality design
+                    resources (Sketch and Axure).
+                </p>
+            }
+        >
+            { children }
+        </Comment>
+    );
+
     return (
         <div className="postObject">
             <div className="postPadding">
-                <img className="postImg" src={ rhaenyra_targaryen } alt="" />
-                <h1 className='postTitle'>Rhaenyra Targaryen ? Will She make a fine queen?</h1>
+                <img className="postImg" src={ image } alt="" />
+                <h1 className='postTitle'>{ title }</h1>
                 <div className="editBar">
                     <div className="authorName">
-                        <p>peaceminuczy</p>
+                        <p>{ authorName }</p>
                     </div>
                     <div className="followButton">
                         <Button type="dashed">Follow</Button>
@@ -20,19 +36,20 @@ export default function Postobject () {
                     <Button className="editButton" icon={ <EditOutlined /> } />
                     <Button className="deleteButton" icon={ <DeleteOutlined /> } />
                     <div className="postTime">
-                        30 minutes ago
+                        { releaseTime }
                     </div>
                 </div>
                 <div className="postContent">
                     <p>
-                        She owned up to her misdeeds. Rhaenys knew that a lot of people misunderstood Rhaenyra’s intentions and had formed a very different opinion. They saw her as the fierce Targaryen princess who wouldn’t mind spilling blood if it came to that. They saw her as a person who wouldn’t mind indulging in immoral activities and mocking the moral compass of society. But Rhaenyra was not the barbarian that people thought her to be. She was flamboyant in her approach, but she had a kind heart
-                        She owned up to her misdeeds. Rhaenys knew that a lot of people misunderstood Rhaenyra’s intentions and had formed a very different opinion. They saw her as the fierce Targaryen princess who wouldn’t mind spilling blood if it came to that. They saw her as a person who wouldn’t mind indulging in immoral activities and mocking the moral compass of society. But Rhaenyra was not the barbarian that people thought her to be. She was flamboyant in her approach, but she had a kind heart
-                        She owned up to her misdeeds. Rhaenys knew that a lot of people misunderstood Rhaenyra’s intentions and had formed a very different opinion. They saw her as the fierce Targaryen princess who wouldn’t mind spilling blood if it came to that. They saw her as a person who wouldn’t mind indulging in immoral activities and mocking the moral compass of society. But Rhaenyra was not the barbarian that people thought her to be. She was flamboyant in her approach, but she had a kind heart
-                        She owned up to her misdeeds. Rhaenys knew that a lot of people misunderstood Rhaenyra’s intentions and had formed a very different opinion. They saw her as the fierce Targaryen princess who wouldn’t mind spilling blood if it came to that. They saw her as a person who wouldn’t mind indulging in immoral activities and mocking the moral compass of society. But Rhaenyra was not the barbarian that people thought her to be. She was flamboyant in her approach, but she had a kind heart
-                        She owned up to her misdeeds. Rhaenys knew that a lot of people misunderstood Rhaenyra’s intentions and had formed a very different opinion. They saw her as the fierce Targaryen princess who wouldn’t mind spilling blood if it came to that. They saw her as a person who wouldn’t mind indulging in immoral activities and mocking the moral compass of society. But Rhaenyra was not the barbarian that people thought her to be. She was flamboyant in her approach, but she had a kind heart
-                        She owned up to her misdeeds. Rhaenys knew that a lot of people misunderstood Rhaenyra’s intentions and had formed a very different opinion. They saw her as the fierce Targaryen princess who wouldn’t mind spilling blood if it came to that. They saw her as a person who wouldn’t mind indulging in immoral activities and mocking the moral compass of society. But Rhaenyra was not the barbarian that people thought her to be. She was flamboyant in her approach, but she had a kind heart
+                        { content }
                     </p>
                 </div>
+                <ExampleComment>
+                    <ExampleComment>
+                        <ExampleComment />
+                        <ExampleComment />
+                    </ExampleComment>
+                </ExampleComment>
             </div>
         </div>
     )

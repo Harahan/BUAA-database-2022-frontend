@@ -1,0 +1,21 @@
+* {
+    box-sizing: border-box;
+    font-size: 15px;
+}
+
+body {
+    font-family: 'Courier New', Courier, monospace;
+    line-height: 1.2;
+}
+
+.writeTitle {
+    padding: 10px;
+}
+
+.writeArea {
+    padding: 20px;
+}
+
+.writeTags {
+    padding: 10px;
+}

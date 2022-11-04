@@ -67,7 +67,7 @@ class WrappedNormalLoginForm extends React.Component {
         console.log(this.props)
         return (
             <div className='login-div'>
-                <div className='loginTitle'>登录</div>
+                <div className='loginTitle'>Login</div>
                 <Form onSubmit={this.handleSubmit} className="login-form">
                     <Form.Item name='username' rules={[{ required: true, message: 'Please input your username!' }]}>
                         <Input
@@ -85,14 +85,14 @@ class WrappedNormalLoginForm extends React.Component {
                         />
                     </Form.Item>
                     <Form.Item name='remember' valuePropName='checked' initialValue={true}>
-                        <Checkbox style={{ marginLeft: '13%' }}>记住我</Checkbox>
+                        <Checkbox style={{ marginLeft: '13%' }}>Remember Me</Checkbox>
                         <a className="login-form-forgot" href="http://www.baidu.com" style={{ marginLeft: '5%' }}>
-                            忘记密码
+                            Forgot password ?
                         </a>
                         <Button type="primary" htmlType="submit" className="login-form-button" style={{ marginLeft: '5%' }}>
-                            登录
+                            Login
                         </Button>
-                        <a href="/register" style={{ marginLeft: '5%' }}>去注册</a>
+                        <a href="/register" style={{ marginLeft: '5%' }}>Sign up</a>
                     </Form.Item>
                 </Form>
             </div>

@@ -195,7 +195,7 @@ class WrappedRegistrationForm extends React.Component {
     return (
       // <div className='loginRegister'>注册</div>
       <div className='registerDiv'>
-        <div className='redisterTitle'>注册</div>
+        <div className='redisterTitle'>Sign up</div>
         <Form {...formItemLayout} onSubmit={this.handleSubmit} className='register-form'>
           <Form.Item name='email' label="E-mail" rules={[
             {
@@ -286,7 +286,7 @@ class WrappedRegistrationForm extends React.Component {
             </Button>
             <Button type="primary1" className='toLogin'>
               <a href='/login'>
-                返回登录
+                Login
               </a>
             </Button>
           </Form.Item>
