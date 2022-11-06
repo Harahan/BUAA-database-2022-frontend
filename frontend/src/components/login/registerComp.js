@@ -69,20 +69,25 @@ class WrappedRegistrationForm extends React.Component {
     if (!this.state.email || !this.state.password || !this.state.username || !this.state.residence || !this.state.website) {
       return
     }
-    let data = { email: this.state.email, password: this.state.password, username: this.state.username, residence: this.state.residence, website: this.state.website }
-    let url = 'http://192.168.21.33:8001/fapp/user/register/'
-    axios.post(url, data, { headers: { 'Content-Type': 'application/json' } }
-    ).then(res => {
-      if (res.status === 200 && res.data.code === 1) {
-        alert('注册成功。' + res)
-        this.props.history.push('/login')
-      }
-      else {
-        console.log(res)
-        alert('注册失败：' + res.data.msg)
-      }
-
-    })
+    let data = { username: this.state.username, password: this.state.password }
+    console.log(data)
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: this.state.username,
+        password: this.state.password
+      }),
+    };
+    fetch("/api/register", requestOptions)
+      .then((response) => {
+        if (response.ok) {
+          this.props.history.push(`/login`);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   handleEmail = (e) => {
@@ -114,11 +119,6 @@ class WrappedRegistrationForm extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.form.validateFieldsAndScroll((err, values) => {
-      if (!err) {
-        console.log('Received values of form: ', values);
-      }
-    });
     this.submitH();
   };
 
