@@ -32,7 +32,7 @@ export default function WrappedNormalLoginForm() {
         fetch("/api/user/login/", requestOptions)
             .then(res => res.json()).then(data => {
                 if (data.code == 3) {
-                    message.success('你已登录');
+                    message.error('你已登录，请注销后再注册');
                     navigate('/', {
                         state: {
                             bool: true,
@@ -56,7 +56,7 @@ export default function WrappedNormalLoginForm() {
                 }
             })
             .catch((error) => {
-                message.error("注册失败")
+                message.error("登录失败")
                 console.log(error);
             });
     }

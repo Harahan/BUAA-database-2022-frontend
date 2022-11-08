@@ -14,6 +14,7 @@ export default function Navbar() {
     let state = location.state;
     const [status, setStatus] = useState(false);
     useEffect(() => {
+        console.log("zhixingle")
         if (!status) {
             if (state != null) {
                 if (state.bool) {
