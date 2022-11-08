@@ -2,6 +2,7 @@ import React from 'react'
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import { Button, Comment, Avatar, message } from 'antd'
 import './postobject.css'
+import qs from 'qs'
 
 
 export default function Postobject({ authorName, releaseTime, categories, title, content, image }) {
@@ -11,44 +12,54 @@ export default function Postobject({ authorName, releaseTime, categories, title,
         console.log(data)
         const requestOptions = {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: qs.stringify({
                 username: authorName
             }),
         };
-        fetch("/api/follow", requestOptions)
-            .then((response) => {
-                if (response.ok) {
-                    message.success('This is a success message');
-                } else {
-                    message.error('This is an error message');
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        fetch("/api/user/follow/", requestOptions)
+        .then(res => res.json()).then(data => {
+            if (data.code == 3) {
+                alert('还未登录');
+                window.location.href = "/login";
+            } else if (data.code == 1) {
+                message.success('取关成功');
+            } else if (data.code == 2) {
+                message.error('关注失败，请稍后尝试');
+            } else if (data.code == 0) {
+                message.success('关注成功');
+            }else{
+                message.error('无法关注自己');
+            }
+        })
+        .catch((error) => {
+            alert("关注失败")
+            console.log(error);
+        });
     }
     const handleDelete = () => {
         console.log("delete")
         const requestOptions = {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: qs.stringify({
                 username: authorName,
                 tit: title
             }),
         };
-        fetch("/api/deleteArticle", requestOptions)
-            .then((response) => {
-                if (response.ok) {
-                    window.location.href = "/profile";
-                } else {
-                    message.error('you cannt delete');
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        fetch("/api/blog/delete/", requestOptions)
+        .then(res => res.json()).then(data => {
+            if (data.code == 3) {
+                alert('还未登录或权限不足');
+            } else if (data.code == 1) {
+                message.success('文章不存在');
+            } else if (data.code == 2) {
+                message.error('删除失败，请稍后尝试');
+            } else if (data.code == 0) {
+                message.success('删除成功');
+                window.location.href = "/home";
+            }
+        })
     }
     const ExampleComment = ({ children }) => (
         <Comment

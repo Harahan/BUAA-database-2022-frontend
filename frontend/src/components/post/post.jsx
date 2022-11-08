@@ -6,6 +6,7 @@ import { Badge, Avatar, Button, Tag, Image, message } from 'antd';
 import rhaenyra_targaryen from '../../assets/rhaenyra_targaryen.jpg'
 import SinglePost from '../../pages/postpage/postpage.jsx'
 import Postpage from '../../pages/postpage/postpage.jsx';
+import qs from 'qs'
 
 export default function Post({ authorName, releaseTime, categories, title, digest, image, userPhoto }) {
     const handleFollow = () => {
@@ -14,30 +15,38 @@ export default function Post({ authorName, releaseTime, categories, title, diges
         console.log(data)
         const requestOptions = {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: qs.stringify({
                 username: authorName
             }),
         };
-        fetch("/api/follow", requestOptions)
-            .then((response) => {
-                if (response.ok) {
-                    message.success('This is a success message');
-                } else {
-                    message.error('This is an error message');
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        fetch("/api/user/follow/", requestOptions)
+        .then(res => res.json()).then(data => {
+            if (data.code == 3) {
+                alert('还未登录');
+                window.location.href = "/login";
+            } else if (data.code == 1) {
+                message.success('取关成功');
+            } else if (data.code == 2) {
+                message.error('关注失败，请稍后尝试');
+            } else if (data.code == 0) {
+                message.success('关注成功');
+            }else{
+                message.error('无法关注自己');
+            }
+        })
+        .catch((error) => {
+            alert("关注失败")
+            console.log(error);
+        });
     }
     const navigate = useNavigate();
     const handleJump = () => {
         console.log("jump")
         const requestOptions = {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: qs.stringify({
                 author_Name: authorName,
                 tit: title
             }),
@@ -55,14 +64,9 @@ export default function Post({ authorName, releaseTime, categories, title, diges
             image: rhaenyra_targaryen,
             userPhoto: rhaenyra_targaryen
         };
-        fetch("/api/getArticle", requestOptions).then((response) => {
-            if (response.ok) {
-                console.log("get")
-            } else {
-                console.log("not get")
-            }
-        }).then((data) => {
-            article = data;
+        fetch("/api/blog/fetchOne/", requestOptions)
+        .then(res => res.json()).then(data => {
+            console.log(data)
         })
         navigate('/postpage', { state: article, replace: true })
     }

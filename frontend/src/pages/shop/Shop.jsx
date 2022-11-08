@@ -1,4 +1,5 @@
-import React, { axios, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 import GoodItem from "../../components/GoodItem/GoodItem"
 import rhaenyra_targaryen from '../../assets/rhaenyra_targaryen.jpg'
 import "./shop.css"
@@ -39,11 +40,15 @@ function Shop() {
         ]
     });
     useEffect(() => {
-        const fetchData = async () => {
-            const result = await axios.get('/api/commondy')
-            setData(result.data);
-        }
-        fetchData();
+        fetch("/api/shop/fetchAll/")/*
+        .then(res => {
+            console.log(res)
+            //setData(data);
+        })*/
+        .then(res => res.json()).then(data => {
+            console.log(data)
+            //setData(data);
+        })
     }, []);
 
     return (

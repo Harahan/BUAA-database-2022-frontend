@@ -36,11 +36,11 @@ export default function Blog() {
         ]
     });
     useEffect(() => {
-        const fetchData = async () => {
-            const result = await axios.get('/api/blogs')
-            setData(result.data);
-        }
-        fetchData();
+        fetch("/api/blog/fetchAll/")
+        .then(res => res.json()).then(data => {
+            console.log(data)
+            //setData(data);
+        })
     }, []);
     return (
         <div className='blogs'>

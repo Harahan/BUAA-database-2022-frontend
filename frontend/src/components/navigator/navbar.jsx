@@ -5,17 +5,28 @@ import "antd/dist/antd.css";
 import React from 'react';
 import "./navbar.css"
 import rhaenyra_targaryen from '../../assets/rhaenyra_targaryen.jpg'
+import { useNavigate, useLocation } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 
 export default function Navbar() {
-    const [status, setStatus] = React.useState(false);
-    React.useEffect(()=>{
-        console.log('useEffect');
-    },[])
+    const navigate = useNavigate();
+    const location = useLocation()
+    let state = location.state;
+    const [status, setStatus] = useState(false);
+    useEffect(() => {
+        if (!status) {
+            if (state != null) {
+                if (state.bool) {
+                    setStatus(true)
+                }
+            }
+        }
+    }, [state])
     const handleClick = () => {
         if (!status) {
-            window.location.href = "/login";
+            navigate('/login')
         } else {
-            window.location.href = "/profile";
+            navigate('/profile', { state: state })
         }
     };
     return (
