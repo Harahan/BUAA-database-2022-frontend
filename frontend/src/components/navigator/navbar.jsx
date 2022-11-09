@@ -31,7 +31,7 @@ export default function Navbar() {
         return () => {
             console.log("clear")
             console.log(info)
-            if (Object.keys(info).length == 3) {
+            if (info!==null && Object.keys(info).length == 3) {
                 localStorage.setItem("state", JSON.stringify(info));
             }
         }

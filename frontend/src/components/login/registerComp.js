@@ -3,11 +3,13 @@ import {
   Button,
   Checkbox,
   Form,
-  Input
+  Input,
+  Upload
 } from 'antd';
+import ImgCrop from 'antd-img-crop';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
-import React from 'react'
+import React, { useState } from 'react'
 import './registerComp.css'
 import qs from 'qs';
 import { useNavigate } from 'react-router-dom'
@@ -16,6 +18,7 @@ export default function WrappedRegistrationForm() {
   const navigate = useNavigate();
   const handleSubmit = (values) => {
     console.log('Received values of form: ', values);
+    console.log(fileList[0]);
     if (!values.password || !values.username) {
       return
     }
@@ -60,6 +63,29 @@ export default function WrappedRegistrationForm() {
         console.log(error);
       });
   }
+  const [fileList, setFileList] = useState([]);
+  const beforeUpload = (file) => {
+    console.log(file)
+    console.log("before load")
+  };
+  const onChange = ({ fileList: newFileList }) => {
+    setFileList(newFileList);
+  };
+  const onPreview = async (file) => {
+    console.log(file)
+    let src = file.url;
+    if (!src) {
+      src = await new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file.originFileObj);
+        reader.onload = () => resolve(reader.result);
+      });
+    }
+    const image = new Image();
+    image.src = src;
+    const imgWindow = window.open(src);
+    imgWindow?.document.write(image.outerHTML);
+  };
   const [form] = Form.useForm();
 
   const formItemLayout = {
@@ -151,6 +177,23 @@ export default function WrappedRegistrationForm() {
           ]}
         >
           <Input.Password />
+        </Form.Item>
+        <Form.Item
+          name="picture"
+          label="username"
+        >
+          <ImgCrop rotate>
+            <Upload
+              action="api/blog/delete/"
+              listType="picture-card"
+              fileList={fileList}
+              onChange={onChange}
+              onPreview={onPreview}
+              beforeUpload={beforeUpload}
+            >
+              {fileList.length < 1 && '+ Upload'}
+            </Upload>
+          </ImgCrop>
         </Form.Item>
         <Form.Item
           name="agreement"
