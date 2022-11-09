@@ -9,38 +9,38 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import localStorage from "localStorage";
 
-export default function Navbar() {
+export default function Navbar () {
     const navigate = useNavigate();
     const location = useLocation()
     let info = location.state;
-    const [status, setStatus] = useState(false);
-    useEffect(() => {
-        console.log("zhixingle")
-        if (info !== null) {
-            console.log("back")
-            if (Object.keys(info).length == 3) {
-                setStatus(info.bool)
+    const [ status, setStatus ] = useState( false );
+    useEffect( () => {
+        console.log( "zhixingle" )
+        if ( info !== null ) {
+            console.log( "back" )
+            if ( Object.keys( info ).length == 3 ) {
+                setStatus( info.bool )
             }
         } else {
-            if (JSON.parse(localStorage.getItem("state")) !== null) {
-                console.log("load from local")
-                info = JSON.parse(localStorage.getItem("state"))
-                setStatus(info.bool)
+            if ( JSON.parse( localStorage.getItem( "state" ) ) !== null ) {
+                console.log( "load from local" )
+                info = JSON.parse( localStorage.getItem( "state" ) )
+                setStatus( info.bool )
             }
         }
         return () => {
-            console.log("clear")
-            console.log(info)
-            if (Object.keys(info).length == 3) {
-                localStorage.setItem("state", JSON.stringify(info));
+            console.log( "clear" )
+            console.log( info )
+            if ( info !== null && Object.keys( info ).length == 3 ) {
+                localStorage.setItem( "state", JSON.stringify( info ) );
             }
         }
-    }, [info])
+    }, [ info ] )
     const handleClick = () => {
-        if (!status) {
-            navigate('/login')
+        if ( !status ) {
+            navigate( '/login' )
         } else {
-            navigate('/profile', { state: info })
+            navigate( '/profile', { state: info } )
         }
     };
     return (
@@ -69,11 +69,11 @@ export default function Navbar() {
                     </li>
                 </ul>
             </div>
-            <div className="RightBox" onClick={() => handleClick()}>
-                <Badge count={1} className="UserProfile">
-                    {/* 没有登陆是这个： */}
-                    {status ? <Avatar size='large' src={rhaenyra_targaryen} /> :
-                        <Avatar size='large' icon={<UserOutlined />} />}
+            <div className="RightBox" onClick={ () => handleClick() }>
+                <Badge count={ 1 } className="UserProfile">
+                    {/* 没有登陆是这个： */ }
+                    { status ? <Avatar size='large' src={ rhaenyra_targaryen } /> :
+                        <Avatar size='large' icon={ <UserOutlined /> } /> }
                     {/* 登陆了是这个：
                     <Avatar size='large' src={ userPhoto } /> */}
                 </Badge>
