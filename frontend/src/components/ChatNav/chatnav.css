@@ -1,0 +1,45 @@
+.ChatNav {
+    display:flex;
+    height: 10%;
+    padding: 8px;
+    align-items: center;
+    color:white;
+    background-color: grey;
+}
+
+.title {
+    flex:8;
+    padding-left: 5%;
+    font-weight: bold;
+    font-size: 27px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.user {
+    flex:9;
+    display: flex;
+    gap: 20px;
+}
+
+.profile {
+    flex:8;
+    display: flex;
+    gap:20px;
+}
+
+.profilePic {
+    object-fit: cover;
+    border-radius: 50%;
+    width: 50px;
+    height:50px;
+    background-color: white;
+}
+
+.rightProfile {
+    display: felx;
+}
+
+.userName {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: large;
+}

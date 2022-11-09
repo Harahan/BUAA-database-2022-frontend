@@ -1,0 +1,32 @@
+.ChatSearch {
+    border-bottom: 1px solid rgb(193, 191, 191);
+    width: 100%;
+    display:table;
+}
+
+.searchForm {
+    padding:20px;
+}
+
+.userChat {
+    padding:15px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    background-color: rgb(205, 205, 205);  
+    border-bottom: 1px solid rgb(162, 160, 160);
+}
+
+.userChat:hover {
+    background-color: rgb(114, 114, 114);
+}
+
+.img{
+    width: 50px;
+    height: 50px;
+    border-radius:50%;
+}
+
+.chatUserInfo{
+    padding-left: 10%;
+}
