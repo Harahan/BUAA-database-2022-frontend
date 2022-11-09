@@ -1,3 +1,21 @@
 .ChatBox {
     flex: 2;
 }
+
+.chatInfo {
+    background-color: rgb(184, 189, 189);
+    height: 10%;
+    display: flex;
+    padding: 20px;
+}
+
+.UserName {
+    color:white;
+    font-size: 30px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    flex:9;
+}
+
+.UserPage{
+    flex:1;
+}

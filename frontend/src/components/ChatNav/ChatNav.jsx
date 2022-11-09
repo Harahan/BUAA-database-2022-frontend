@@ -14,16 +14,18 @@ function ChatNav () {
             <div className="user">
                 <div className="profile">
                     <img className="profilePic" src={ rhaenyra_targaryen } alt="" />
-                    <div className='userName'>
-                        Peaceminuczy
+                    <div className="rightProfile">
+                        <div className='userName'>
+                            Peaceminuczy
+                        </div>
+                        <Tooltip title="log out" className="logout">
+                            <Button danger
+                                shape="circle"
+                                size={ 'small' }
+                                icon={ <LogoutOutlined /> } />
+                        </Tooltip>
                     </div>
                 </div>
-                <Tooltip title="log out" className="logout">
-                    <Button danger
-                        shape="circle"
-                        size={ 'small' }
-                        icon={ <LogoutOutlined /> } />
-                </Tooltip>
             </div>
         </div>
     )

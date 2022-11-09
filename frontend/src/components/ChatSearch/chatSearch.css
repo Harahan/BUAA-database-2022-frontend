@@ -17,11 +17,8 @@
     border-bottom: 1px solid rgb(162, 160, 160);
 }
 
-.userChat :hover {
-    box-shadow: 1px 1px 1px rgba(67, 65, 65, 0.8);
-    transition: 0.2s ease-in-out;
-    cursor: pointer;
-    background-color: rgb(83, 82, 80);
+.userChat:hover {
+    background-color: rgb(114, 114, 114);
 }
 
 .img{
