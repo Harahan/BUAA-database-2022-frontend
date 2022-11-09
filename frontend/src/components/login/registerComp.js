@@ -32,7 +32,7 @@ export default function WrappedRegistrationForm() {
     fetch("/api/user/signup/", requestOptions)
       .then(res => res.json()).then(data => {
         if (data.code == 3) {
-          message.error('你已登录');
+          message.error('你已登录，请注销后再注册');
           navigate('/', {
             state: {
               bool: true,

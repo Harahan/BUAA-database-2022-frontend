@@ -7,27 +7,40 @@ import "./navbar.css"
 import rhaenyra_targaryen from '../../assets/rhaenyra_targaryen.jpg'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react'
+import localStorage from "localStorage";
 
 export default function Navbar() {
     const navigate = useNavigate();
     const location = useLocation()
-    let state = location.state;
+    let info = location.state;
     const [status, setStatus] = useState(false);
     useEffect(() => {
         console.log("zhixingle")
-        if (!status) {
-            if (state != null) {
-                if (state.bool) {
-                    setStatus(true)
-                }
+        if (info !== null) {
+            console.log("back")
+            if (Object.keys(info).length == 3) {
+                setStatus(info.bool)
+            }
+        } else {
+            if (JSON.parse(localStorage.getItem("state")) !== null) {
+                console.log("load from local")
+                info = JSON.parse(localStorage.getItem("state"))
+                setStatus(info.bool)
             }
         }
-    }, [state])
+        return () => {
+            console.log("clear")
+            console.log(info)
+            if (Object.keys(info).length == 3) {
+                localStorage.setItem("state", JSON.stringify(info));
+            }
+        }
+    }, [info])
     const handleClick = () => {
         if (!status) {
             navigate('/login')
         } else {
-            navigate('/profile', { state: state })
+            navigate('/profile', { state: info })
         }
     };
     return (
