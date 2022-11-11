@@ -8,13 +8,11 @@ import qs from 'qs'
 export default function Postobject({ authorName, releaseTime, categories, title, content, image }) {
     const handleFollow = () => {
         console.log("click")
-        let data = { username: authorName }
-        console.log(data)
         const requestOptions = {
             method: "POST",
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: qs.stringify({
-                username: authorName
+                authorName: authorName
             }),
         };
         fetch("/api/user/follow/", requestOptions)

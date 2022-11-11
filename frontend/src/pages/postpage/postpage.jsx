@@ -27,9 +27,9 @@ export default function Postpage() {
                 authorName={Article.authorName}
                 releaseTime={Article.releaseTime}
                 title={Article.title}
-                content={Article.content}
+                content={Article.digest}
                 image={Article.image}
-                categories={Article.categories}
+                categories={[Article.categories]}
             />
             <Sidebar />
         </div>
