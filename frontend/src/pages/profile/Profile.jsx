@@ -1,8 +1,12 @@
 import React from 'react'
 
-function profile () {
+function profile() {
+    //profile page
     return (
-        <div>profile</div>
+        //Two pages with all personal blogs and all items sold by the individual
+        <div>
+            <h1>Profile</h1>
+        </div>
     )
 }
 
