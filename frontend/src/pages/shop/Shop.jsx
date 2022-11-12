@@ -23,7 +23,7 @@ function Shop() {
                     return (
                         <GoodItem
                             key={key}
-                            image={Buffer.from(goodItem.image, 'utf-8')}
+                            image={goodItem.image}
                             name={goodItem.name}
                             price={goodItem.price}
                         />

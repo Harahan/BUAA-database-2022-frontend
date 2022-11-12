@@ -52,7 +52,7 @@ export default function Blog() {
                             key={key}
                             authorName={blog.authorName}
                             releaseTime={blog.releaseTime}
-                            categories={[blog.categories]}
+                            categories={[blog.categories, blog.categories]}
                             title={blog.title}
                             digest={blog.digest}
                             image={blog.image}
