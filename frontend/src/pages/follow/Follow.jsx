@@ -1,6 +1,10 @@
 import './follow.css'
 import { Tabs } from 'antd'
 import { BookOutlined, ShoppingCartOutlined, BulbOutlined } from '@ant-design/icons'
+import Blog from '../../components/blog/Blog'
+import GoodList from '../../components/GoodList/GoodList';
+import Idea from '../../components/Ideas/Idea';
+
 
 export default function Follow () {
     return (
@@ -17,7 +21,7 @@ export default function Follow () {
                             </span>
                         ),
                         key: '1',
-                        children: `Content of Tab Pane 1`,
+                        children: <Blog />,
                     },
                     {
                         label: (
@@ -27,7 +31,7 @@ export default function Follow () {
                             </span>
                         ),
                         key: '2',
-                        children: `Content of Tab Pane 2`,
+                        children: <GoodList />,
                     },
                     {
                         label: (
@@ -37,10 +41,10 @@ export default function Follow () {
                             </span>
                         ),
                         key: '3',
-                        children: `Content of Tab Pane 3`,
+                        children: <Idea />,
                     },
                 ] }
             />
-        </div>
+        </div >
     )
 }
