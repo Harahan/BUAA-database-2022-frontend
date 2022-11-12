@@ -1,7 +1,7 @@
 .ChatSearch {
     border-bottom: 1px solid rgb(193, 191, 191);
     width: 100%;
-    display:table;
+    height:78%;
 }
 
 .searchForm {
@@ -29,4 +29,17 @@
 
 .chatUserInfo{
     padding-left: 10%;
+    font-weight: 800;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.contactForm{
+    overflow:scroll;
+    height: 100%;
+}
+
+.latestMsg {
+    color: grey;
+    font-family: fantasy;
+    padding-left: 30%;
 }
