@@ -1,0 +1,33 @@
+.Message {
+    display: flex;
+}
+
+.msgInfo {
+    display: flex;
+    flex-direction: column;
+    color: grey; 
+    font-size: 2px;
+    font-weight: 200;
+}
+
+.msgContent {
+    max-width: 80%;
+    padding:1%;
+}
+
+.msg {
+    background-color: white;
+    padding: 8px 18px;
+    border-radius: 0px 16px 16px 16px;
+}
+
+.Own{
+    flex-direction: row-reverse;
+    color: grey;
+}
+
+.Own .msg {
+    background-color:grey;
+    color: white;
+    border-radius: 16px 0px 16px 16px;
+}

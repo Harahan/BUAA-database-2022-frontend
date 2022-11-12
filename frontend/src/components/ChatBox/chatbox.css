@@ -9,6 +9,12 @@
     padding: 20px;
 }
 
+.Messages {
+    height:80%;
+    padding-left: 3%;
+    overflow: scroll;
+}
+
 .UserName {
     color:white;
     font-size: 30px;
@@ -19,3 +25,5 @@
 .UserPage{
     flex:1;
 }
+
+
