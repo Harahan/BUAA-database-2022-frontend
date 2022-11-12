@@ -16,6 +16,7 @@ import {
     Routes,
     Link
 } from 'react-router-dom'
+import SingleIdea from './components/Idea/SingleIdea';
 
 function App() {
     return (
@@ -31,6 +32,7 @@ function App() {
                 <Route exact path='/register' element={<WrappedRegistrationForm/>} />
                 <Route exact path='/postpage' element={<SinglePost/>} />
                 <Route exact path='/profile' element={<Profile/>} />
+                <Route exact path='/singleidea' element={<SingleIdea/>} />
             </Routes>
         </Router>
     );

@@ -2,33 +2,15 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Buffer } from 'buffer'
 import GoodItem from "../../components/GoodItem/GoodItem"
-import rhaenyra_targaryen from '../../assets/rhaenyra_targaryen.jpg'
 import "./shop.css"
+import GoodList from '../../components/GoodList/GoodList'
 
-function Shop() {
-    const [data, setData] = useState([]);
-    useEffect(() => {
-        fetch("/api/shop/fetchAll/")
-            .then(res => res.json()).then(data => {
-                console.log(data)
-                setData(data);
-            })
-    }, []);
-
+function Shop () {
     return (
         <div className="shop">
             <h1 className='shopTitle'>Shop</h1>
             <div className="goodsList">
-                {data.map((goodItem, key) => {
-                    return (
-                        <GoodItem
-                            key={key}
-                            image={Buffer.from(goodItem.image, 'utf-8')}
-                            name={goodItem.name}
-                            price={goodItem.price}
-                        />
-                    );
-                })}
+                <GoodList />
             </div>
         </div>
     )
