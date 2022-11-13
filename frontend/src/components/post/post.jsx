@@ -40,11 +40,6 @@ export default function Post({ authorName, releaseTime, categories, title, diges
     }
     const navigate = useNavigate();
     const handleJump = () => {
-        console.log("jump")
-        const requestOptions = {
-            method: "GET",
-        };
-        console.log(authorName, title)
         var curname = null
         if (authorName.indexOf('#') != -1 || authorName.indexOf('+') != -1 || authorName.indexOf('/') != -1 || authorName.indexOf('?') != -1 || authorName.indexOf('%') != -1 || authorName.indexOf('&') != -1 || authorName.indexOf('=') != -1 || authorName.indexOf(' ') != -1) {
             curname = authorName.replace(/([\#|\+|\/|\?|\%|\#|\&|\=| ])/g, function ($1) {
@@ -63,8 +58,8 @@ export default function Post({ authorName, releaseTime, categories, title, diges
         }
         let url = "api/blog/fetchOne/?author_Name=" + curname + "&tit=" + curtit
         console.log(url)
-        fetch(url).then(res => res.json()).then(data => {
-            navigate('/postpage', { state: data[0], replace: true })
+        fetch(`api/blog/fetchOne/?author_Name=${authorName}&tit=${title}`).then(res => res.json()).then(data => {
+            navigate('/postpage', { state: data[0] })
         })
     }
     return (

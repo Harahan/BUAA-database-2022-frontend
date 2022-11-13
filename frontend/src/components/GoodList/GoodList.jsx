@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Buffer } from 'buffer'
 import GoodItem from "../../components/GoodItem/GoodItem"
+import './goodlist.css'
 
 function GoodList () {
 
@@ -22,7 +23,7 @@ function GoodList () {
                     return (
                         <GoodItem
                             key={ key }
-                            image={ Buffer.from( goodItem.image, 'utf-8' ) }
+                            image={ goodItem.image }
                             name={ goodItem.name }
                             price={ goodItem.price }
                         />

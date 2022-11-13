@@ -1,13 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { message, Form, Input, Button, Checkbox } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import './loginComp.css'
 import qs from 'qs'
 import { useLocation, useNavigate } from 'react-router-dom'
-
+import { UserContext } from '../UserContext/UserContext';
 export default function WrappedNormalLoginForm() {
-
+    const { dispatch } = useContext(UserContext)
     const state = {
         username: '',
         password: ''
@@ -33,26 +33,15 @@ export default function WrappedNormalLoginForm() {
             .then(res => res.json()).then(data => {
                 if (data.code == 3) {
                     message.error('你已登录');
-                    navigate('/', {
-                        state: {
-                            bool: true,
-                            username: state.username,
-                            password: state.password
-                        }, replace: true
-                    })
+                    navigate('/')
                 } else if (data.code == 1) {
                     message.error('用户名或密码错误');
                 } else if (data.code == 2) {
                     message.error('登录失败，请稍后尝试');
                 } else if (data.code == 0) {
                     message.success('登录成功');
-                    navigate('/', {
-                        state: {
-                            bool: true,
-                            username: state.username,
-                            password: state.password
-                        }, replace: true
-                    })
+                    dispatch({ type: 'login', info: data })
+                    navigate('/')
                 }
             })
             .catch((error) => {

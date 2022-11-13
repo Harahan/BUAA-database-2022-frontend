@@ -1,18 +1,23 @@
 import './follow.css'
-import { Tabs } from 'antd'
+import { Tabs, Input } from 'antd'
+import React, { useState } from 'react';
 import { BookOutlined, ShoppingCartOutlined, BulbOutlined } from '@ant-design/icons'
 import Blog from '../../components/blog/Blog'
 import GoodList from '../../components/GoodList/GoodList';
 import Idea from '../../components/Ideas/Idea';
-
-
-export default function Follow () {
+const { Search } = Input;
+export default function Follow() {
+    const [search, setSearch] = useState("");
+    const onSearch = (value) => {
+        console.log(value);
+        setSearch(value);
+    }
     return (
         <div className="Follow">
             <Tabs
                 defaultActiveKey="1"
-                tabPosition={ "left" }
-                items={ [
+                tabPosition={"left"}
+                items={[
                     {
                         label: (
                             <span>
@@ -21,7 +26,20 @@ export default function Follow () {
                             </span>
                         ),
                         key: '1',
-                        children: <Blog />,
+                        children:
+                            <span>
+                                <Search
+                                    placeholder="input search text"
+                                    allowClear
+                                    enterButton="Search"
+                                    size="large"
+                                    onSearch={onSearch}
+                                />
+                                <Blog
+                                    follow={true}
+                                    search={search}
+                                />
+                            </span>,
                     },
                     {
                         label: (
@@ -43,7 +61,7 @@ export default function Follow () {
                         key: '3',
                         children: <Idea />,
                     },
-                ] }
+                ]}
             />
         </div >
     )

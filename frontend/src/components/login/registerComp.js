@@ -36,13 +36,7 @@ export default function WrappedRegistrationForm() {
       .then(res => res.json()).then(data => {
         if (data.code == 3) {
           message.error('你已登录，请注销后再注册');
-          navigate('/', {
-            state: {
-              bool: true,
-              username: values.username,
-              password: values.password
-            }, replace: true
-          })
+          navigate('/')
         } else if (data.code == 1) {
           message.error('此用户名已被注册');
         } else if (data.code == 2) {
@@ -51,10 +45,9 @@ export default function WrappedRegistrationForm() {
           message.success('注册成功');
           navigate('/login', {
             state: {
-              bool: false,
               username: values.username,
               password: values.password
-            }, replace: true
+            }
           })
         }
       })
@@ -62,6 +55,9 @@ export default function WrappedRegistrationForm() {
         message.error("注册失败")
         console.log(error);
       });
+  }
+  const handleback = () => {
+    navigate('/login')
   }
   const [fileList, setFileList] = useState([]);
   const beforeUpload = (file) => {
@@ -213,6 +209,9 @@ export default function WrappedRegistrationForm() {
         <Form.Item {...tailFormItemLayout}>
           <Button type="primary" htmlType="submit">
             Register
+          </Button>
+          <Button type="link" htmlType="button" onClick={handleback}>
+            Login
           </Button>
         </Form.Item>
       </Form>

@@ -5,42 +5,28 @@ import "antd/dist/antd.css";
 import React from 'react';
 import "./navbar.css"
 import rhaenyra_targaryen from '../../assets/rhaenyra_targaryen.jpg'
-import { useNavigate, useLocation } from 'react-router-dom'
-import { useEffect, useState } from 'react'
-import localStorage from "localStorage";
-
+import { useNavigate } from 'react-router-dom'
+import { useEffect, useState, useContext } from 'react'
+import { UserContext } from '../../components/UserContext/UserContext'
 export default function Navbar() {
+    const { data, dispatch } = useContext(UserContext);
     const navigate = useNavigate();
-    const location = useLocation()
-    let info = location.state;
-    const [status, setStatus] = useState(false);
     useEffect(() => {
-        console.log("zhixingle")
-        if (info !== null) {
-            console.log("back")
-            if (Object.keys(info).length == 3) {
-                setStatus(info.bool)
-            }
-        } else {
-            if (JSON.parse(localStorage.getItem("state")) !== null) {
-                console.log("load from local")
-                info = JSON.parse(localStorage.getItem("state"))
-                setStatus(info.bool)
-            }
-        }
-        return () => {
-            console.log("clear")
-            console.log(info)
-            if (info !== null && Object.keys(info).length == 3) {
-                localStorage.setItem("state", JSON.stringify(info));
-            }
-        }
-    }, [info])
+        console.log("重新渲染navbar")
+        fetch("/api/user/getProfile/")
+            .then(res => res.json()).then(data => {
+                if (data.code == 1) {
+                    dispatch({ type: "render", status: false, info: {} })
+                } else {
+                    dispatch({ type: "render", status: true, info: data })
+                }
+            })
+    }, [])
     const handleClick = () => {
-        if (!status) {
+        if (!data.status) {
             navigate('/login')
         } else {
-            navigate('/profile', { state: info })
+            navigate('/profile')
         }
     };
     return (
@@ -69,13 +55,10 @@ export default function Navbar() {
                     </li>
                 </ul>
             </div>
-            <div className="RightBox" onClick={() => handleClick()}>
+            <div className="RightBox" >
                 <Badge count={1} className="UserProfile">
-                    {/* 没有登陆是这个： */}
-                    {status ? <Avatar size='large' src={rhaenyra_targaryen} /> :
-                        <Avatar size='large' icon={<UserOutlined />} />}
-                    {/* 登陆了是这个：
-                    <Avatar size='large' src={ userPhoto } /> */}
+                    {data.status ? <Avatar size='large' src={data.info.avatar} onClick={handleClick} /> :
+                        <Avatar size='large' icon={<UserOutlined />} onClick={handleClick} />}
                 </Badge>
                 <SearchOutlined className="searchIcon" />
             </div>

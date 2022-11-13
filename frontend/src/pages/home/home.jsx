@@ -2,13 +2,30 @@ import './home.css'
 import Header from '../../components/header/header'
 import Blog from '../../components/blog/Blog'
 import Sidebar from '../../components/sidebar/sidebar'
-
-export default function home () {
+import React, { useState } from 'react';
+import { Input } from 'antd'
+const { Search } = Input;
+export default function Home() {
+    const [search, setSearch] = useState("");
+    const onSearch = (value) => {
+        //setSearch(value);
+        console.log(value);
+    }
     return (
-        <div>
+        <div >
             <Header />
+            <Search
+                placeholder="input search text"
+                allowClear
+                enterButton="Search"
+                size="large"
+                onSearch={onSearch}
+            />
             <div className='Home'>
-                <Blog />
+                <Blog
+                    follow={false}
+                    search={search}
+                />
                 <Sidebar />
             </div>
         </div>
