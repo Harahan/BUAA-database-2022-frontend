@@ -1,11 +1,12 @@
 import './sidebar.css'
 import { useNavigate, useLocation } from 'react-router-dom'
 
-export default function Sidebar () {
+export default function Sidebar({ click }) {
     const navigate = useNavigate();
-    const filterTheme = ( theme ) => {
-        console.log( theme )
-        navigate( "/" + { theme } )
+    const filterTheme = (theme) => {
+        console.log(theme)
+        click(theme)
+        //navigate( "/" + { theme } )
     }
     return (
         <div className='Sidebar'>
@@ -25,12 +26,12 @@ export default function Sidebar () {
             </div>
             <div className="sidebarItem">
                 <ul className="sidebarList">
-                    <li className="sidebarListItem" onClick={ filterTheme( "tech" ) }>Technology</li>
-                    <li className="sidebarListItem" onClick={ filterTheme( "food" ) }>Food</li>
-                    <li className="sidebarListItem" onClick={ filterTheme( "music" ) }>Music</li>
-                    <li className="sidebarListItem" onClick={ filterTheme( "business" ) }>Business</li>
-                    <li className="sidebarListItem" onClick={ filterTheme( "tv" ) }>Movies & TV</li>
-                    <li className="sidebarListItem" onClick={ filterTheme( "sports" ) }>Sport</li>
+                    <li className="sidebarListItem" onClick={() => filterTheme("tech")}>Technology</li>
+                    <li className="sidebarListItem" onClick={() => filterTheme("food")}>Food</li>
+                    <li className="sidebarListItem" onClick={() => filterTheme("music")}>Music</li>
+                    <li className="sidebarListItem" onClick={() => filterTheme("business")}>Business</li>
+                    <li className="sidebarListItem" onClick={() => filterTheme("tv")}>Movies & TV</li>
+                    <li className="sidebarListItem" onClick={() => filterTheme("sports")}>Sport</li>
                 </ul>
             </div>
         </div>

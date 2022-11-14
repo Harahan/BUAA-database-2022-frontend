@@ -86,7 +86,7 @@ export default function Post({ authorName, releaseTime, categories, title, diges
                         categories.map(
                             (category, key) => {
                                 return (
-                                    <Tag color="default" className="postCategory">{category}</Tag>
+                                    <Tag color="default" className="postCategory" key={key}>{category}</Tag>
                                 );
                             }
                         )

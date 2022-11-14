@@ -38,6 +38,7 @@ export default function Follow() {
                                 <Blog
                                     follow={true}
                                     search={search}
+                                    tag={""}
                                 />
                             </span>,
                     },
