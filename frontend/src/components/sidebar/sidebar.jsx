@@ -5,7 +5,7 @@ export default function Sidebar () {
     const navigate = useNavigate();
     const filterTheme = ( theme ) => {
         console.log( theme )
-        navigate( "/" + { theme } )
+        // navigate( "/" + { theme } )
     }
     return (
         <div className='Sidebar'>
