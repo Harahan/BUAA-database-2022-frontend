@@ -1,8 +1,6 @@
 import './sidebar.css'
-import { useNavigate, useLocation } from 'react-router-dom'
 
 export default function Sidebar({ click }) {
-    const navigate = useNavigate();
     const filterTheme = (theme) => {
         console.log(theme)
         click(theme)
