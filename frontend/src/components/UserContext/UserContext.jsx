@@ -11,22 +11,35 @@ export const UserContextProvider = ({ children }) => {
             username: null,
             email: null,
             avatar: null,
-            date_joined: null
+            date_joined: null,
+            question: null,
+            answer: null,
+            last_name: null,
+            first_name: null,
+            age: null,
+            country: null,
+            tot_like: null,
+            tot_dislike: null
         }
     };
 
     const userReducer = (state, action) => {
+        let oldState = {...state};
         switch (action.type) {
             case "login":
-                return {
+                oldState = {
+                    ...oldState,
                     status: true,
                     info: action.info
-                };
+                }
+                return oldState;
             case "render":
-                return {
+                oldState = {
+                    ...oldState,
                     status: action.status,
                     info: action.info
-                };
+                }
+                return oldState;
             default:
                 return state;
         }

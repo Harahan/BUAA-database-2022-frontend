@@ -31,7 +31,7 @@ function App() {
                 <Route exact path="/login" element={<Login />} />
                 <Route exact path='/register' element={<WrappedRegistrationForm/>} />
                 <Route exact path='/postpage' element={<SinglePost/>} />
-                <Route exact path='/profile' element={<Profile/>} />
+                <Route exact path='/profile/:name' element={<Profile/>} />
                 <Route exact path='/singleidea' element={<SingleIdea/>} />
             </Routes>
         </Router>

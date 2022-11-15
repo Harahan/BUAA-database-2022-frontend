@@ -40,27 +40,19 @@ export default function Post({ authorName, releaseTime, categories, title, diges
     }
     const navigate = useNavigate();
     const handleJump = () => {
-        var curname = null
-        if (authorName.indexOf('#') != -1 || authorName.indexOf('+') != -1 || authorName.indexOf('/') != -1 || authorName.indexOf('?') != -1 || authorName.indexOf('%') != -1 || authorName.indexOf('&') != -1 || authorName.indexOf('=') != -1 || authorName.indexOf(' ') != -1) {
-            curname = authorName.replace(/([\#|\+|\/|\?|\%|\#|\&|\=| ])/g, function ($1) {
-                return encodeURIComponent($1)
-            })
-        } else {
-            curname = authorName;
-        }
-        var curtit = null
-        if (title.indexOf('#') != -1 || title.indexOf('+') != -1 || title.indexOf('/') != -1 || title.indexOf('?') != -1 || title.indexOf('%') != -1 || title.indexOf('&') != -1 || title.indexOf('=') != -1 || title.indexOf(' ') != -1) {
-            curtit = title.replace(/([\#|\+|\/|\?|\%|\#|\&|\=| ])/g, function ($1) {
-                return encodeURIComponent($1)
-            })
-        } else {
-            curtit = title;
-        }
-        let url = "api/blog/fetchOne/?author_Name=" + curname + "&tit=" + curtit
-        console.log(url)
-        fetch(`api/blog/fetchOne/?author_Name=${authorName}&tit=${title}`).then(res => res.json()).then(data => {
+        fetch(`/api/blog/fetchOne/`, {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: qs.stringify({
+                author_Name: authorName,
+                tit: title
+            }),
+        }).then(res => res.json()).then(data => {
             navigate('/postpage', { state: data[0] })
         })
+    }
+    const handleClickPhoto = () => {
+        navigate('/profile/' + authorName)
     }
     return (
         <div className="post" >
@@ -68,7 +60,7 @@ export default function Post({ authorName, releaseTime, categories, title, diges
                 <div className="authorInfo">
                     <div className="profilePhoto">
                         <Badge count={1} className="AuthorProfile">
-                            <Avatar size='large' src={userPhoto} />
+                            <Avatar size='large' src={userPhoto} onClick={handleClickPhoto} />
                         </Badge>
                     </div>
                     <div className="authorName">

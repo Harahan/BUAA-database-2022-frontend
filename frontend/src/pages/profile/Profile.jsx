@@ -1,13 +1,40 @@
-import React from 'react'
-
-function profile() {
-    //profile page
+import { Tabs } from 'antd';
+import React from 'react';
+import BlogPage from './BlogPage';
+import Shop from '../shop/Shop';
+import Page from './account';
+import OtherPage from './other';
+import { useContext } from 'react'
+import { useParams } from 'react-router-dom';
+import { UserContext } from '../../components/UserContext/UserContext';
+function Profile() {
+    const params = useParams()
+    const { data, dispatch } = useContext(UserContext);
     return (
-        //Two pages with all personal blogs and all items sold by the individual
-        <div>
-            <h1>Profile</h1>
-        </div>
+        <Tabs
+            defaultActiveKey="1"
+            items={[
+                {
+                    label: `Blog`,
+                    key: '1',
+                    children: <BlogPage
+                        username={params.name}
+                        modifiable={data.status && data.info.username == params.name}
+                    />,
+                },
+                {
+                    label: `Shop`,
+                    key: '2',
+                    children: <Shop />,
+                },
+                {
+                    label: `Settings`,
+                    key: '3',
+                    children: data.status && data.info.username == params.name ? <Page /> : <OtherPage username={params.name} />,
+                },
+            ]}
+        />
     )
 }
 
-export default profile
+export default Profile

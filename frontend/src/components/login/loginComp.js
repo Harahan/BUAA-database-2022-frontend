@@ -31,6 +31,7 @@ export default function WrappedNormalLoginForm() {
         };
         fetch("/api/user/login/", requestOptions)
             .then(res => res.json()).then(data => {
+                console.log(data)
                 if (data.code == 3) {
                     message.error('你已登录');
                     navigate('/')

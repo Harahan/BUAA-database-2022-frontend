@@ -4,29 +4,37 @@ import { Space, Avatar, Badge } from 'antd';
 import "antd/dist/antd.css";
 import React from 'react';
 import "./navbar.css"
-import rhaenyra_targaryen from '../../assets/rhaenyra_targaryen.jpg'
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState, useContext } from 'react'
 import { UserContext } from '../../components/UserContext/UserContext'
+import qs from "qs";
 export default function Navbar() {
     const { data, dispatch } = useContext(UserContext);
     const navigate = useNavigate();
     useEffect(() => {
         console.log("重新渲染navbar")
-        fetch("/api/user/getProfile/")
-            .then(res => res.json()).then(data => {
-                if (data.code == 1) {
-                    dispatch({ type: "render", status: false, info: {} })
-                } else {
-                    dispatch({ type: "render", status: true, info: data })
-                }
+        fetch("/api/user/getProfile/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: qs.stringify({
+                username: data.info.username === null ? "" : data.info.username
             })
+        }).then(res => res.json()).then(data => {
+            console.log(data)
+            if (data.code == 1) {
+                dispatch({ type: "render", status: false, info: {} })
+            } else {
+                dispatch({ type: "render", status: true, info: data })
+            }
+        })
     }, [])
     const handleClick = () => {
         if (!data.status) {
             navigate('/login')
         } else {
-            navigate('/profile')
+            navigate(`/profile/${data.info.username}`)
         }
     };
     return (
