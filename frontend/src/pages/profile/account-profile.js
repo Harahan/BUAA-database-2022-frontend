@@ -50,14 +50,21 @@ export default function AccountProfile() {
         })
         fileList.length = 0
         setIsModalVisible(false)
-        fetch("/api/user/getProfile/")
-            .then(res => res.json()).then(data => {
-                if (data.code == 1) {
-                    dispatch({ type: "render", status: false, info: {} })
-                } else {
-                    dispatch({ type: "render", status: true, info: data })
-                }
+        fetch("/api/user/getProfile/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: qs.stringify({
+                username: data.info.username
             })
+        }).then(res => res.json()).then(data => {
+            if (data.code == 1) {
+                dispatch({ type: "render", status: false, info: {} })
+            } else {
+                dispatch({ type: "render", status: true, info: data })
+            }
+        })
     }
     return (
         <Card >
