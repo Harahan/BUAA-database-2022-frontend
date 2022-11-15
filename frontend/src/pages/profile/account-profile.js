@@ -9,6 +9,7 @@ import {
     Typography,
     Grid
 } from '@mui/material';
+import { message } from 'antd';
 import {
     Upload
 } from 'antd';
@@ -46,7 +47,7 @@ export default function AccountProfile() {
         });
         axios({
             method: 'post',
-            url: 'api/user/fixProfile/',
+            url: '/api/user/fixProfile/',
             data: formData
         })
         fileList.length = 0
@@ -62,8 +63,10 @@ export default function AccountProfile() {
         }).then(res => res.json()).then(data => {
             if (data.code == 1) {
                 dispatch({ type: "render", status: false, info: {} })
+                message.error("上传失败")
             } else {
                 dispatch({ type: "render", status: true, info: data })
+                message.success("上传头像成功")
             }
         })
     }

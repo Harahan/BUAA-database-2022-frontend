@@ -126,6 +126,8 @@ export const AccountProfileDetails = () => {
         }).then(res => res.json()).then(data => {
             if (data.code != 0) {
                 message.error("修改失败")
+            } else {
+                message.success("修改成功")
             }
         }).then(() => {
             fetch("/api/user/getProfile/", {
@@ -137,12 +139,12 @@ export const AccountProfileDetails = () => {
                     username: data.info.username
                 })
             }).then(res => res.json()).then(rs => {
-                    if (rs.code == 1) {
-                        dispatch({ type: "render", status: false, info: {} })
-                    } else {
-                        dispatch({ type: "render", status: true, info: rs })
-                    }
-                })
+                if (rs.code == 1) {
+                    dispatch({ type: "render", status: false, info: {} })
+                } else {
+                    dispatch({ type: "render", status: true, info: rs })
+                }
+            })
         })
     }
     return (
