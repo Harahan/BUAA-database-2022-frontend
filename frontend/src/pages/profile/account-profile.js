@@ -15,6 +15,7 @@ import {
 import axios from 'axios';
 import { useState, useContext } from 'react'
 import { UserContext } from '../../components/UserContext/UserContext'
+import qs from 'qs'
 export default function AccountProfile() {
     const { data, dispatch } = useContext(UserContext);
     const [fileList, setFileList] = useState([]);
