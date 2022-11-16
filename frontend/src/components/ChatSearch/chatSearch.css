@@ -43,3 +43,7 @@
     font-family: fantasy;
     padding-left: 30%;
 }
+
+.ant-input-affix-wrapper {
+    border-radius: 25px;
+}

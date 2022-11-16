@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom';
 import './postpage.css'
 import Sidebar from '../../components/sidebar/sidebar'
 import Postobject from '../../components/postobject/postobject'
 import rhaenyra_targaryen from '../../assets/rhaenyra_targaryen.jpg'
+import { convertLegacyProps } from 'antd/lib/button/button';
 
-export default function Postpage() {
+export default function Postpage () {
     let location = useLocation();
     let state = location.state;
     const Article = state == null ? {
@@ -21,15 +22,16 @@ export default function Postpage() {
         image: rhaenyra_targaryen,
         userPhoto: rhaenyra_targaryen
     } : state;
+
     return (
         <div className="SinglePost">
             <Postobject
-                authorName={Article.authorName}
-                releaseTime={Article.releaseTime}
-                title={Article.title}
-                content={Article.digest}
-                image={Article.image}
-                categories={[Article.categories]}
+                authorName={ Article.authorName }
+                releaseTime={ Article.releaseTime }
+                title={ Article.title }
+                content={ Article.digest }
+                html={ Article.html }
+                categories={ [ Article.categories ] }
             />
             <Sidebar />
         </div>

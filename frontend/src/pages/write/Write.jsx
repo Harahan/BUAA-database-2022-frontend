@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import { Typography, Input, Tag, Tooltip, Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import { i18nChangeLanguage } from '@wangeditor/editor'
-import { Editor, Toolbar } from '@wangeditor/editor-for-react'
+import { i18nChangeLanguage } from '@wangeditor/editor';
+import FileSaver from 'file-saver';
+import { Editor, Toolbar } from '@wangeditor/editor-for-react';
 import '@wangeditor/editor/dist/css/style.css'
 import axios from 'axios'
+import Qs from 'qs'
 import './write.css'
 
 const Write = () => {
@@ -25,21 +27,28 @@ const Write = () => {
 
     const postArticle = () => {
         setLoading( true );
-        console.log( html );
         let formData = new FormData();
-        formData.append( "html", html );
+        let blob = new Blob( [ html ], {
+            type: 'text / plain; charset=utrf - 8'
+        } );
+        let htmlFile = new window.File( [ blob ], "article.html" );
+        console.log( htmlFile );
+        formData.append( "html", htmlFile );
         formData.append( "tags", tags );
         formData.append( "title", title );
-        if ( firstPic ) {
-            formData.append( "cover", firstPic );
-        }
+        formData.append( "cover", firstPic );
+        console.log( firstPic );
         axios(
             {
-                url: "http://localhost:3000/api/postArticle",
+                url: "http://localhost:3000/api/blog/postArticle/",
                 method: "POST",
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                },
                 data: formData,
             }
         ).then( ( res ) => {
+            console.log( res );
             setLoading( false );
         }
         )
@@ -54,19 +63,25 @@ const Write = () => {
     editorConfig.MENU_CONF[ 'uploadImage' ] = {
         async customUpload ( file, insertFn ) {
             let formData = new FormData();
-            formData.append( "file", file );
+            console.log( file );
+            formData.append( 'picture', file );
+            console.log( formData.get( 'picture' ) )
             axios(
                 {
-                    url: "http://localhost:3000/api/upload",
-                    method: "GET",
-                    data: formData,
+                    url: "http://localhost:3000/api/blog/uploadPicture/",
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    },
+                    data: formData
                 }
             ).then(
                 ( res ) => {
+                    console.log( res.data.url )
                     insertFn( res.data.url )
                     if ( firstPic === null ) {
-                        setfirstPic( res );
-                        console.log( res );
+                        setfirstPic( res.data.url );
+                        console.log( res.data.url );
                     }
                 }
             )
@@ -219,9 +234,6 @@ const Write = () => {
                         style={ { height: '500px' } }
                     />
                 </div>
-                <div className="editor-content-view"
-                    dangerouslySetInnerHTML={ { __html: html } }
-                />
             </div>
             <div className="PostButton">
                 <Button

@@ -173,8 +173,10 @@ function ChatSearch () {
                     placeholder="Find a user"
                     onSearch={ onSearch }
                     allowClear={ true }
+                    bordered={ false }
                     style={ {
-                        width: 250,
+                        width: 260,
+                        backgroundColor: '#ECEBEB',
                     } }
                 />
             </div>

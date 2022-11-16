@@ -122,7 +122,10 @@ const ChatBox = () => {
                     allMessages.map(
                         ( msg, key ) => {
                             return (
-                                <Message time={ msg.time } content={ msg.content } sender={ msg.sender } />
+                                <Message
+                                    time={ msg.time }
+                                    content={ msg.content }
+                                    sender={ msg.sender } />
                             );
                         }
                     )
