@@ -24,22 +24,17 @@ export const UserContextProvider = ({ children }) => {
     };
 
     const userReducer = (state, action) => {
-        let oldState = {...state};
         switch (action.type) {
             case "login":
-                oldState = {
-                    ...oldState,
+                return {
                     status: true,
                     info: action.info
                 }
-                return oldState;
             case "render":
-                oldState = {
-                    ...oldState,
+                return {
                     status: action.status,
                     info: action.info
-                }
-                return oldState;
+                };
             default:
                 return state;
         }

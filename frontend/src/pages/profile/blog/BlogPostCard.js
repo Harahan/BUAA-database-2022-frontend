@@ -2,7 +2,6 @@
 import { alpha, styled } from '@mui/material/styles';
 import { Box, Link, Card, Grid, Avatar, Typography, CardContent } from '@mui/material';
 // utils
-import { fDate } from './formatTime';
 import { fShortenNumber } from './formatNumber';
 //
 import SvgColor from './svg-color';
@@ -136,7 +135,7 @@ export default function BlogPostCard({ post, index }) {
           }}
         >
           <Typography gutterBottom variant="caption" sx={{ color: 'text.disabled', display: 'block' }}>
-            {fDate(post.releaseTime)}
+            {post.releaseTime}
           </Typography>
 
           <StyledTitle

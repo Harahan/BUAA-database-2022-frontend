@@ -9,14 +9,15 @@ import Chat from './pages/chat/Chat'
 import Profile from './pages/profile/Profile'
 import WrappedRegistrationForm from './pages/login/register'
 import SinglePost from './pages/postpage/postpage'
+import PostProduct from './components/Product/postProduct';
 
 import {
     BrowserRouter as Router,
     Route,
-    Routes,
-    Link
+    Routes
 } from 'react-router-dom'
 import SingleIdea from './components/Idea/SingleIdea';
+import Product from './components/Product/product';
 
 function App() {
     return (
@@ -29,10 +30,12 @@ function App() {
                 <Route exact path="/write" element={<Write />} />
                 <Route exact path="/chat" element={<Chat />} />
                 <Route exact path="/login" element={<Login />} />
-                <Route exact path='/register' element={<WrappedRegistrationForm/>} />
-                <Route exact path='/postpage' element={<SinglePost/>} />
-                <Route exact path='/profile/:name' element={<Profile/>} />
-                <Route exact path='/singleidea' element={<SingleIdea/>} />
+                <Route exact path='/register' element={<WrappedRegistrationForm />} />
+                <Route exact path='/postpage' element={<SinglePost />} />
+                <Route exact path='/profile/:name' element={<Profile />} />
+                <Route exact path='/singleidea' element={<SingleIdea />} />
+                <Route exact path='/product' element={<Product />} />
+                <Route exact path='/postProduct' element={<PostProduct />} />
             </Routes>
         </Router>
     );

@@ -1,3 +1,4 @@
+import React, { useEffect } from 'react';
 import {
     Avatar,
     Box,
@@ -9,69 +10,47 @@ import {
     Typography,
     Grid
 } from '@mui/material';
+import { UploadOutlined } from '@ant-design/icons';
 import { message } from 'antd';
-import {
-    Upload
-} from 'antd';
-import axios from 'axios';
+import { Upload } from 'antd';
 import { useState, useContext } from 'react'
 import { UserContext } from '../../components/UserContext/UserContext'
 import qs from 'qs'
-export default function AccountProfile() {
+function AccountProfile() {
     const { data, dispatch } = useContext(UserContext);
     const [fileList, setFileList] = useState([]);
-    const [isModalVisible, setIsModalVisible] = useState(false);
     const onChange = ({ fileList: newFileList }) => {
         setFileList(newFileList);
-        setIsModalVisible(true);
     };
     const onPreview = async (file) => {
-        console.log(file)
-        let src = file.url;
-        if (!src) {
-            src = await new Promise((resolve) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file.originFileObj);
-                reader.onload = () => resolve(reader.result);
-            });
-        }
-        const image = new Image();
-        image.src = src;
-        const imgWindow = window.open(src);
-        imgWindow?.document.write(image.outerHTML);
-    };
-    const handleClick = () => {
         const formData = new FormData();
-        fileList.forEach(item => {
-            formData.append('file', item.originFileObj);
-        });
-        axios({
-            method: 'post',
-            url: '/api/user/fixProfile/',
-            data: formData
-        })
-        fileList.length = 0
-        setIsModalVisible(false)
-        fetch("/api/user/getProfile/", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
-            },
-            body: qs.stringify({
-                username: data.info.username
+        formData.append('file', file);
+        fetch('/api/user/fixProfile/', {
+            method: 'POST',
+            body: formData
+        }).then(res => {
+            fetch("/api/user/getProfile/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: qs.stringify({
+                    username: data.info.username
+                })
+            }).then(res => res.json()).then(data => {
+                if (data.code == 1) {
+                    message.error("上传失败")
+                } else {
+                    message.success("上传头像成功")
+                    dispatch({ type: "render", status: true, info: data })
+                    console.log(data)
+                }
             })
-        }).then(res => res.json()).then(data => {
-            if (data.code == 1) {
-                dispatch({ type: "render", status: false, info: {} })
-                message.error("上传失败")
-            } else {
-                dispatch({ type: "render", status: true, info: data })
-                message.success("上传头像成功")
-            }
         })
-    }
+        return false;
+    };
     return (
-        <Card >
+        <Card>
             <CardContent>
                 <Box
                     sx={{
@@ -115,42 +94,20 @@ export default function AccountProfile() {
                     container
                     spacing={0}
                     direction="row"
-                    justifyContent="space-evenly"
+                    justifyContent="center"
                     alignItems="center"
                 >
-                    <Grid
-                        item
-                        md={6}
-                        xs={12}
+                    <Upload
+                        fileList={fileList}
+                        onChange={onChange}
+                        beforeUpload={(file) => onPreview(file)}
+                        showUploadList={false}
                     >
-                        <Upload
-                            action=""
-                            listType="picture-card"
-                            fileList={fileList}
-                            onChange={onChange}
-                            onPreview={onPreview}
-                            beforeUpload={() => { return false }}
-                            showUploadList={{ showPreviewIcon: { isModalVisible } }}
-                        >
-                            {fileList.length < 1 && '+ Upload'}
-                        </Upload>
-                    </Grid>
-                    <Grid
-                        item
-                        md={6}
-                        xs={12}
-                    >
-                        <Button
-                            color="primary"
-                            fullWidth
-                            variant="text"
-                            onClick={handleClick}
-                        >
-                            Upload picture
-                        </Button>
-                    </Grid>
+                        <Button icon={<UploadOutlined />}>Click to Upload</Button>
+                    </Upload>
                 </Grid>
             </CardActions>
         </Card>
     );
 }
+export default AccountProfile;

@@ -28,7 +28,7 @@ export default function Blog({ follow, search, tag }) {
         fetch(`/api/blog/fetchAll/?follow=${follow}&tag=${curtag}&search=${cursearch}`)
             .then(res => res.json()).then(data => {
                 console.log("fetching")
-                //console.log(data)
+                console.log(data)
                 setData(data)
             })
     }, [search, tag])

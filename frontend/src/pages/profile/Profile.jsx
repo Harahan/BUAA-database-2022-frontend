@@ -1,7 +1,7 @@
 import { Tabs } from 'antd';
 import React from 'react';
 import BlogPage from './BlogPage';
-import Shop from '../shop/Shop';
+import ProductsPage from '../../components/Product/ProductPage';
 import Page from './account';
 import OtherPage from './other';
 import { useContext } from 'react'
@@ -9,7 +9,7 @@ import { useParams } from 'react-router-dom';
 import { UserContext } from '../../components/UserContext/UserContext';
 function Profile() {
     const params = useParams()
-    const { data, dispatch } = useContext(UserContext);
+    const { data } = useContext(UserContext);
     return (
         <Tabs
             defaultActiveKey="1"
@@ -25,7 +25,7 @@ function Profile() {
                 {
                     label: `Shop`,
                     key: '2',
-                    children: <Shop />,
+                    children: <ProductsPage/>,
                 },
                 {
                     label: `Settings`,
