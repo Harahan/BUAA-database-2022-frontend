@@ -44,7 +44,7 @@ export default function Blog({ follow, search, tag }) {
                             categories={blog.categories}
                             title={blog.title}
                             digest={blog.digest}
-                            image={blog.image}
+                            image={blog.cover}
                             userPhoto={blog.userPhoto}
                         />
                     );
