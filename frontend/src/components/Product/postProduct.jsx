@@ -2,13 +2,15 @@ import rhaenyra_targaryen from '../../assets/rhaenyra_targaryen.jpg';
 import { Box, Container, Grid, Card, CardActions, CardContent, Button, Typography, InputLabel, TextField, CardHeader } from '@mui/material';
 import { UploadOutlined } from '@ant-design/icons';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react'
+import { UserContext } from '../../components/UserContext/UserContext';
 import { message } from 'antd';
 import { Upload } from 'antd';
 import { ColorMultiPicker } from './components/color-utils';
-import qs from 'qs'
 const options = [
     {
-        value: null,
+        value: '',
         label: 'Select a category',
     },
     {
@@ -37,6 +39,8 @@ const options = [
     },
 ];
 function PostProduct() {
+    const { data } = useContext(UserContext);
+    const navigate = useNavigate();
     const [value, setValue] = useState({
         image: rhaenyra_targaryen,
         file: null,
@@ -54,7 +58,6 @@ function PostProduct() {
         setFileList(newFileList);
     };
     const onPreview = async (file) => {
-        console.log(file);
         let src = await new Promise((resolve) => {
             const reader = new FileReader();
             reader.readAsDataURL(file);
@@ -70,7 +73,31 @@ function PostProduct() {
         return false;
     };
     const handleClick = () => {
-        console.log(value)
+        let formatColor = value.color[0]
+        for (let i = 1; i < value.color.length; i++) {
+            formatColor += ',' + value.color[i]
+        }
+        const formdata = new FormData();
+        formdata.append('image', value.file);
+        formdata.append('name', value.name);
+        formdata.append('description', value.description);
+        formdata.append('price', value.price);
+        formdata.append('priceSale', value.priceSale);
+        formdata.append('deliveryLocation', value.deliveryLocation);
+        formdata.append('deliveryTime', value.deliveryTime);
+        formdata.append('category', value.category);
+        formdata.append('color', formatColor);
+        fetch("/api/shop/postMerchandise/", {
+            method: "POST",
+            body: formdata
+        }).then(result => {
+            if (result.ok) {
+                message.success('Product posted successfully');
+                navigate('/profile/' + data.info.username)
+            } else {
+                message.error('Product posted failed');
+            }
+        })
     }
     return (
         <>

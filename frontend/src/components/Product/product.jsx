@@ -1,9 +1,28 @@
-import rhaenyra_targaryen from '../../assets/rhaenyra_targaryen.jpg';
-import { Box, Container, Grid, Card, CardActions, CardContent, Button, Typography, Chip } from '@mui/material';
+import { Box, Container, Grid, Card, CardActions, CardContent, Button, Typography } from '@mui/material';
 import { InputNumber } from 'antd'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { ColorMultiPicker } from './components/color-utils';
+import qs from 'qs';
 function Product() {
+    const params = useParams()
     const [value, setValue] = useState(1);
+    const [color, setColor] = useState();
+    const [info, setInfo] = useState({})
+    useEffect(() => {
+        fetch("/api/shop/getMerchandise/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: qs.stringify({
+                id: params.id
+            }),
+        }).then(res => res.json()).then(res => {
+            console.log(res.color)
+            setInfo(res)
+        })
+    }, [params])
     return (
         <>
             <Box
@@ -33,7 +52,7 @@ function Product() {
                                 justifyContent="center"
                                 alignItems="center"
                             >
-                                <img src={rhaenyra_targaryen} width='100%' />
+                                <img src={info.image} width='500px' height={'400px'} />
                             </Grid>
                         </Grid>
                         <Grid
@@ -50,16 +69,16 @@ function Product() {
                             >
                                 <Card minWidth={275}>
                                     <CardContent>
-                                        <Typography
+                                        <Typography fontSize={24}
                                             variant="button" color="textPrimary" gutterBottom
                                             sx={{ fontWeight: 'bold' }}
                                         >
-                                            圆领卫衣男潮流加绒加厚宽松学生卫衣男秋冬季新款韩版潮
+                                            {info.name}
                                         </Typography>
-                                        <Typography
+                                        <Typography fontSize={18}
                                             variant="caption" color="#DC143C" display="block" gutterBottom
                                         >
-                                            双12返场 专区2件9折，3件8.5折 全场包邮
+                                            {info.description}
                                         </Typography>
                                     </CardContent>
                                     <CardContent>
@@ -69,23 +88,23 @@ function Product() {
                                             justifyContent="flex-start"
                                             alignItems="center"
                                             sx={{ bgcolor: '#DCDCDC' }}
-                                            marginBottom={1}
+                                            marginBottom={3}
                                         >
                                             <Grid
                                                 item display={'inline'} marginRight={3}
                                             >
-                                                <Typography color="#808080" fontSize={12}>
+                                                <Typography color="#808080" fontSize={20}>
                                                     价格
                                                 </Typography>
                                             </Grid>
                                             <Grid
                                                 item
                                             >
-                                                <Typography color="#FF0000" display={'inline'} fontSize={12}>
-                                                    ￥
+                                                <Typography color="#FF0000" display={'inline'} fontSize={20} marginRight={1}>
+                                                    $
                                                 </Typography>
-                                                <Typography color="#FF0000" display={'inline'} fontSize={18} sx={{ fontWeight: 'bold' }}>
-                                                    69.00
+                                                <Typography color="#FF0000" display={'inline'} fontSize={24} sx={{ fontWeight: 'bold' }}>
+                                                    {info.price}
                                                 </Typography>
                                             </Grid>
                                         </Grid>
@@ -98,18 +117,18 @@ function Product() {
                                             <Grid
                                                 item display={'inline'} marginRight={3}
                                             >
-                                                <Typography color="#808080" fontSize={12}>
+                                                <Typography color="#808080" fontSize={20}>
                                                     运费
                                                 </Typography>
                                             </Grid>
                                             <Grid
                                                 item
                                             >
-                                                <Typography display={'block'} fontSize={12}>
-                                                    浙江温州 至 阳江
+                                                <Typography display={'block'} fontSize={20}>
+                                                    {info.deliveryLocation}
                                                 </Typography>
-                                                <Typography display={'block'} fontSize={12}>
-                                                    店铺预售，付款7天后发货
+                                                <Typography display={'block'} fontSize={20}>
+                                                    {info.deliveryTime}
                                                 </Typography>
                                             </Grid>
                                         </Grid>
@@ -124,24 +143,27 @@ function Product() {
                                             <Grid
                                                 item display={'inline'} marginRight={3}
                                             >
-                                                <Typography color="#808080" fontSize={12}>
-                                                    尺码
+                                                <Typography color="#808080" fontSize={20}>
+                                                    颜色
                                                 </Typography>
                                             </Grid>
                                             <Grid
                                                 item
                                             >
-                                                <Grid
-                                                    container
-                                                    direction="row"
-                                                    alignItems="center"
-                                                    gap={1}
-                                                >
-                                                    <Chip color="primary" variant="outlined" size="small" label="S/165" />
-                                                    <Chip color="primary" variant="outlined" size="small" label="M/170" />
-                                                    <Chip color="primary" variant="outlined" size="small" label="L/175" />
-                                                    <Chip color="primary" variant="outlined" size="small" label="XL/180" />
-                                                </Grid>
+                                                <ColorMultiPicker
+                                                    name="colors"
+                                                    selected={[color]}
+                                                    colors={info.color===undefined?[]:info.color}
+                                                    onChangeColor={(item) => {
+                                                        if (color === item) {
+                                                            setColor(null);
+                                                        }
+                                                        else {
+                                                            setColor(item);
+                                                        }
+                                                    }}
+                                                    sx={{ maxWidth: 500 }}
+                                                />
                                             </Grid>
                                         </Grid>
                                     </CardContent>
@@ -152,7 +174,7 @@ function Product() {
                                             justifyContent="center"
                                             alignItems="center" gap={2}>
                                             <Grid item>
-                                                <Typography display={'block'} fontSize={14} color="grey" sx={{ fontWeight: 'bold' }}>
+                                                <Typography display={'block'} fontSize={20} color="grey" sx={{ fontWeight: 'bold' }}>
                                                     数量
                                                 </Typography>
                                             </Grid>
@@ -166,20 +188,20 @@ function Product() {
                                             container
                                             direction="row"
                                             justifyContent="space-around"
-                                            alignItems="center">
+                                            alignItems="center" gap={10}>
                                             <Button sx={{ bgcolor: "#FF9933" }}>
-                                                <Typography display={'block'} fontSize={14} color="white" sx={{ fontWeight: 'bold' }}
-                                                    marginTop={1.2} marginBottom={1.2} marginLeft={2.7} marginRight={2.7}>
+                                                <Typography display={'block'} fontSize={20} color="white" sx={{ fontWeight: 'bold' }}
+                                                    marginTop={1.3} marginBottom={1.3} marginLeft={2.6} marginRight={2.6}>
                                                     加入购物车
                                                 </Typography>
                                             </Button>
                                             <Button sx={{ bgcolor: "#DC143C" }}>
                                                 <Grid item color={"white"}>
-                                                    <Typography display={"block"} fontSize={14} sx={{ fontWeight: 'bold' }} marginLeft={2} marginRight={2}>
+                                                    <Typography display={"block"} fontSize={20} sx={{ fontWeight: 'bold' }} marginLeft={4} marginRight={4}>
                                                         立即购买
                                                     </Typography>
-                                                    <Typography display={"block"} fontSize={12} marginLeft={2} marginRight={2}>
-                                                        到手价￥69.00
+                                                    <Typography display={"block"} fontSize={14} marginLeft={2} marginRight={2}>
+                                                        到手价${info.price}
                                                     </Typography>
                                                 </Grid>
                                             </Button>

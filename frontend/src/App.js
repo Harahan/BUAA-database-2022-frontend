@@ -34,7 +34,7 @@ function App() {
                 <Route exact path='/postpage' element={<SinglePost />} />
                 <Route exact path='/profile/:name' element={<Profile />} />
                 <Route exact path='/singleidea' element={<SingleIdea />} />
-                <Route exact path='/product' element={<Product />} />
+                <Route exact path='/product/:id' element={<Product />} />
                 <Route exact path='/postProduct' element={<PostProduct />} />
             </Routes>
         </Router>

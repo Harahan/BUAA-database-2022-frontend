@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { message, Form, Input, Button, Checkbox } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
@@ -8,13 +8,18 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { UserContext } from '../UserContext/UserContext';
 export default function WrappedNormalLoginForm() {
     const { dispatch } = useContext(UserContext)
-    const state = {
+    const [state, setState] = useState({
         username: '',
         password: ''
-    }
+    })
     const navigate = useNavigate();
     const location = useLocation()
     let back = location.state;
+    useEffect(() => {
+        if (back) {
+            setState(back)
+        }
+    }, [back])
     const handleSubmit = () => {
         if (!state.username || !state.password) {
             return
@@ -52,11 +57,11 @@ export default function WrappedNormalLoginForm() {
     }
 
     const handleChangeUsername = (e) => {
-        state.username = e.target.value
+        setState({ ...state, username: e.target.value })
     }
 
     const handleChangePwd = (e) => {
-        state.password = e.target.value
+        setState({ ...state, password: e.target.value })
     }
     return (
         <div className='login-div'>
@@ -67,7 +72,8 @@ export default function WrappedNormalLoginForm() {
                         prefix={<UserOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
                         placeholder="Username"
                         onChange={handleChangeUsername}
-                        defaultValue={back == null ? "" : back.username}
+                        value={state.username}
+                        defaultValue={state.username}
                     />
                 </Form.Item>
                 <Form.Item name='password' rules={[{ required: true, message: 'Please input your Password!' }]}>
@@ -76,7 +82,8 @@ export default function WrappedNormalLoginForm() {
                         type="password"
                         placeholder="Password"
                         onChange={handleChangePwd}
-                        defaultValue={back == null ? "" : back.password}
+                        value={state.password}
+                        defaultValue={state.password}
                     />
                 </Form.Item>
                 <Form.Item name='remember' valuePropName='checked' initialValue={true}>
