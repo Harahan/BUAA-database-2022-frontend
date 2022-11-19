@@ -1,13 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useContext } from 'react'
-import { UserContext } from '../UserContext/UserContext';
 import { Container, Stack, Typography, Button } from '@mui/material';
 import { ProductSort, ProductList, ProductFilterSidebar } from './products';
 import Iconify from './components/iconify';
 import qs from 'qs';
-export default function ProductsPage() {
-    const { data } = useContext(UserContext);
+export default function ProductsPage({username}) {
     const [products, setProducts] = useState([]);
     const [openFilter, setOpenFilter] = useState(false);
     const [filter, setFilter] = useState({
@@ -27,7 +24,7 @@ export default function ProductsPage() {
             color: filter.color,
             priceSale: filter.price === "below" ? 0 : filter.price === "between" ? 1 : 2,
             rank: filter.rating === null ? 0 : filter.rating,
-            username: data.info.username,
+            username: username,
             op: filter.op === null ? 3 : filter.op,
         }))
         fetch("/api/shop/fetchUserMerchandises/", {
@@ -42,7 +39,7 @@ export default function ProductsPage() {
                 color: filter.color,
                 priceSale: filter.price === "below" ? 0 : filter.price === "between" ? 1 : 2,
                 rank: filter.rating === null ? 0 : filter.rating,
-                username: data.info.username,
+                username: username,
                 op: filter.op === null ? 3 : filter.op,
             }),
         }).then(res => res.json()).then(res => {

@@ -25,7 +25,7 @@ function Profile() {
                 {
                     label: `Shop`,
                     key: '2',
-                    children: <ProductsPage/>,
+                    children: <ProductsPage username={params.name} />,
                 },
                 {
                     label: `Settings`,
