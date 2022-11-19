@@ -62,9 +62,9 @@ function AccountProfile() {
                     <Avatar
                         src={data.info.avatar}
                         sx={{
-                            height: 64,
+                            height: 256,
                             mb: 2,
-                            width: 64
+                            width: 256
                         }}
                     />
                     <Typography
