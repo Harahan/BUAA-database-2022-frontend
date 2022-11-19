@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react'
+import { UserContext } from '../UserContext/UserContext';
 import { Container, Stack, Typography, Button } from '@mui/material';
 import { ProductSort, ProductList, ProductFilterSidebar } from './products';
 import Iconify from './components/iconify';
 import qs from 'qs';
-export default function ProductsPage({username}) {
+export default function ProductsPage({ username }) {
+    const { data } = useContext(UserContext);
     const [products, setProducts] = useState([]);
     const [openFilter, setOpenFilter] = useState(false);
     const [filter, setFilter] = useState({
@@ -67,9 +70,9 @@ export default function ProductsPage({username}) {
                     <Typography variant="h4" gutterBottom>
                         Products
                     </Typography>
-                    <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />} onClick={handlePost}>
+                    {data.username === username && <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />} onClick={handlePost}>
                         New Post
-                    </Button>
+                    </Button>}
                 </Stack>
                 <Stack direction="row" flexWrap="wrap-reverse" alignItems="center" justifyContent="flex-end" sx={{ mb: 5 }}>
                     <Stack direction="row" spacing={1} flexShrink={0} sx={{ my: 1 }}>
