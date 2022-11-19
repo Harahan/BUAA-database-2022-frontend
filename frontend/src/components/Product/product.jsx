@@ -52,7 +52,7 @@ function Product() {
                                 justifyContent="center"
                                 alignItems="center"
                             >
-                                <img src={info.image} width='500px' height={'400px'} />
+                                <img src={info.image} width='150%' height={'150%'} />
                             </Grid>
                         </Grid>
                         <Grid
