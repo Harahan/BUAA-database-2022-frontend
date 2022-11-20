@@ -70,7 +70,7 @@ export default function ProductsPage({ username }) {
                     <Typography variant="h4" gutterBottom>
                         Products
                     </Typography>
-                    {data.username === username && <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />} onClick={handlePost}>
+                    {data.info.username === username && <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />} onClick={handlePost}>
                         New Post
                     </Button>}
                 </Stack>
