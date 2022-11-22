@@ -10,7 +10,6 @@ function Idea () {
     const [ ideaContent, setIdeaContent ] = useState( '' )
     const [ loading, setLoading ] = useState( false )
     const [ allIdea, setAllIdea ] = useState( [] )
-    const ref = useRef();
     useEffect( () => {
         const requestOptions = {
             method: "POST",
@@ -21,9 +20,10 @@ function Idea () {
         };
         fetch( "/api/moment/sendMoment/", requestOptions )
             .then( res => res.json() ).then( data => {
-                if ( data.code == 1 ) {
+                if ( data.code === 1 ) {
                     message.error( '还未登录' );
-                } else if ( data.code == 0 ) {
+                } else if ( data.code === 0 ) {
+                    console.log( data.data )
                     setAllIdea( data.data )
                 }
             } )
@@ -44,11 +44,11 @@ function Idea () {
         };
         fetch( "/api/moment/sendMoment/", requestOptions )
             .then( res => res.json() ).then( data => {
-                if ( data.code == 1 ) {
+                if ( data.code === 1 ) {
                     message.error( 'Please log in' );
-                } else if ( ideaContent == "" ) {
+                } else if ( ideaContent === "" ) {
                     message.error( 'Please write down your idea' )
-                } else if ( data.code == 0 ) {
+                } else if ( data.code === 0 ) {
                     setAllIdea( data.data )
                     setIdeaContent( '' )
                     message.success( 'Successfully sent' );
@@ -97,6 +97,7 @@ function Idea () {
                                     content={ idea.content }
                                     time={ idea.time }
                                     id={ idea.id }
+                                    stance={ idea.stance }
                                     tot_like={ idea.tot_like }
                                     tot_dislike={ idea.tot_dislike }
                                     tot_comment={ idea.tot_comment }

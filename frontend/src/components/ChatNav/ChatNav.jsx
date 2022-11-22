@@ -2,7 +2,6 @@ import React, { useContext } from 'react'
 import 'antd/dist/antd.min.css'
 import { Button, Tooltip, message } from 'antd'
 import { LogoutOutlined } from '@ant-design/icons'
-import rhaenyra_targaryen from '../../assets/rhaenyra_targaryen.jpg'
 import './chatnav.css'
 import { UserContext } from '../UserContext/UserContext';
 import { useNavigate } from 'react-router-dom'
@@ -13,9 +12,9 @@ function ChatNav () {
     const handleClick = () => {
         fetch( "/api/user/logout/" )
             .then( res => res.json() ).then( data => {
-                if ( data.code == 1 ) {
+                if ( data.code === 1 ) {
                     message.error( '还未登录' );
-                } else if ( data.code == 0 ) {
+                } else if ( data.code === 0 ) {
                     message.success( '退出成功' );
                     dispatch( { type: 'render', status: false, info: data } )
                     navigate( '/' )

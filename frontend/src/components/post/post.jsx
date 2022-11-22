@@ -3,14 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import "./post.css";
 import { UserOutlined } from '@ant-design/icons';
 import { Badge, Avatar, Button, Tag, Image, message } from 'antd';
-import rhaenyra_targaryen from '../../assets/rhaenyra_targaryen.jpg'
 import SinglePost from '../../pages/postpage/postpage.jsx'
 import Postpage from '../../pages/postpage/postpage.jsx';
 import qs from 'qs'
 
-export default function Post ( { authorName, releaseTime, categories, title, digest, image, userPhoto } ) {
+export default function Post ( { authorName, releaseTime, categories, title, digest, image, userPhoto, followed } ) {
+    const [ following, setFollowing ] = useState( followed );
     const handleFollow = () => {
-        console.log( "click" )
+        setFollowing( !following );
         const requestOptions = {
             method: "POST",
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -20,14 +20,14 @@ export default function Post ( { authorName, releaseTime, categories, title, dig
         };
         fetch( "/api/user/follow/", requestOptions )
             .then( res => res.json() ).then( data => {
-                if ( data.code == 3 ) {
+                if ( data.code === 3 ) {
                     alert( '还未登录' );
                     window.location.href = "/login";
-                } else if ( data.code == 1 ) {
+                } else if ( data.code === 1 ) {
                     message.success( '取关成功' );
-                } else if ( data.code == 2 ) {
+                } else if ( data.code === 2 ) {
                     message.error( '关注失败，请稍后尝试' );
-                } else if ( data.code == 0 ) {
+                } else if ( data.code === 0 ) {
                     message.success( '关注成功' );
                 } else {
                     message.error( '无法关注自己' );
@@ -49,15 +49,16 @@ export default function Post ( { authorName, releaseTime, categories, title, dig
             } ),
         } ).then( res => res.json() ).then( data => {
             fetch(
-                data[ 0 ].html.replace( '127.0.0.1:8000', 'localhost:3000/api' ), {
+                data[ 0 ].html.replace( '39.106.5.232', 'localhost:3000/link' ), {
                 method: 'get',
                 responseType: 'blob'
             } ).then(
                 res => {
                     let article = data[ 0 ];
+                    console.log( article )
                     res.text().then( html_data => {
                         article.html = html_data;
-                        console.log( article );
+                        console.log( article.html );
                         navigate( '/postpage', { state: article } )
                     } )
                 }
@@ -80,7 +81,7 @@ export default function Post ( { authorName, releaseTime, categories, title, dig
                         <p>{ authorName }</p>
                     </div>
                     <div className="followButton">
-                        <Button type="dashed" onClick={ handleFollow }>Follow</Button>
+                        <Button type="dashed" onClick={ handleFollow }>{ following ? "Unfollow" : "Follow" } </Button>
                     </div>
                     <div className="postTime">
                         { releaseTime }

@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
-import { Typography, Input, Tag, Tooltip, Button } from 'antd';
+import { Typography, Input, Tag, Tooltip, Button, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { i18nChangeLanguage } from '@wangeditor/editor';
 import FileSaver from 'file-saver';
 import { Editor, Toolbar } from '@wangeditor/editor-for-react';
 import '@wangeditor/editor/dist/css/style.css'
 import axios from 'axios'
-import Qs from 'qs'
+import qs from 'qs'
 import './write.css'
 
 const Write = () => {
@@ -22,6 +22,7 @@ const Write = () => {
     const [ html, setHtml ] = useState( '' );
     const inputRef = useRef( null );
     const editInputRef = useRef( null );
+    const [ messageApi, contextHolder ] = message.useMessage();
 
     i18nChangeLanguage( 'en' )
 
@@ -50,6 +51,16 @@ const Write = () => {
         ).then( ( res ) => {
             console.log( res );
             setLoading( false );
+            // fetch( `/api/blog/fetchOne/`, {
+            //     method: "POST",
+            //     headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            //     body: qs.stringify( {
+            //         author_Name: post.authorName,
+            //         tit: post.title,
+            //     } ),
+            // } ).then( res => res.json() ).then( data => {
+            //     navigate( '/postpage', { state: data[ 0 ] } )
+            // } )
         }
         )
     };
@@ -66,25 +77,78 @@ const Write = () => {
             console.log( file );
             formData.append( 'picture', file );
             console.log( formData.get( 'picture' ) )
-            axios(
-                {
-                    url: "http://localhost:3000/api/blog/uploadPicture/",
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    },
-                    data: formData
-                }
-            ).then(
-                ( res ) => {
-                    console.log( res.data.url )
-                    insertFn( res.data.url )
-                    if ( firstPic === null ) {
-                        setfirstPic( res.data.url );
-                        console.log( res.data.url );
+            if ( file.size > 264 * 1024 * 1024 ) {
+                messageApi.open( {
+                    type: 'warning',
+                    content: 'File Too Large',
+                } );
+            } else {
+                axios(
+                    {
+                        url: "http://localhost:3000/api/blog/uploadPicture/",
+                        method: "POST",
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        },
+                        data: formData
                     }
-                }
-            )
+                ).then(
+                    ( res ) => {
+                        console.log( res.data.url )
+                        insertFn( res.data.url )
+                        if ( firstPic === null ) {
+                            setfirstPic( res.data.url );
+                            console.log( res.data.url );
+                        }
+                    }
+                )
+            }
+        },
+        onBeforeUpload ( file ) {
+            return file
+        },
+        onProgress ( progress ) {
+            console.log( 'progress', progress )
+        },
+        onSuccess ( file, res ) {
+            console.log( `${ file.name } succeed`, res )
+        },
+        onFailed ( file, res ) {
+            console.log( `${ file.name } failed`, res )
+        },
+        onError ( file, err, res ) {
+            console.log( `${ file.name } error`, err, res )
+        }
+    }
+
+    editorConfig.MENU_CONF[ 'uploadVideo' ] = {
+        async customUpload ( file, insertFn ) {
+            let formData = new FormData();
+            console.log( file );
+            formData.append( 'video', file );
+            console.log( formData.get( 'video' ) )
+            if ( file.size > 264 * 1024 * 1024 ) {
+                messageApi.open( {
+                    type: 'warning',
+                    content: 'File Too Large',
+                } );
+            } else {
+                axios(
+                    {
+                        url: "http://localhost:3000/api/blog/uploadVideo/",
+                        method: "POST",
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        },
+                        data: formData
+                    }
+                ).then(
+                    ( res ) => {
+                        console.log( res.data.url )
+                        insertFn( res.data.url )
+                    }
+                )
+            }
         },
         onBeforeUpload ( file ) {
             return file
