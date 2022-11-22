@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import "./post.css";
 import { UserOutlined } from '@ant-design/icons';
 import { Badge, Avatar, Button, Tag, Image, message } from 'antd';
-import rhaenyra_targaryen from '../../assets/rhaenyra_targaryen.jpg'
 import SinglePost from '../../pages/postpage/postpage.jsx'
 import Postpage from '../../pages/postpage/postpage.jsx';
 import qs from 'qs'

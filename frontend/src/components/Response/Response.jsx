@@ -4,14 +4,19 @@ import { LikeFilled, LikeOutlined, DislikeFilled, DislikeOutlined, CommentOutlin
 import qs from 'qs'
 
 function Response ( props ) {
-    const [ stance, setStance ] = useState( props.stance );
+    const [ stance, setStance ] = useState( null );
     const [ likes, setLikes ] = useState( props.tot_like );
     const [ dislikes, setDislikes ] = useState( props.tot_dislike );
     const likeIcon = createElement( stance === 1 ? LikeFilled : LikeOutlined );
     const dislikeIcon = createElement( stance === -1 ? DislikeFilled : DislikeOutlined );
 
+    useEffect(
+        () => {
+            setStance( props.stance )
+        }, [ props.stance ]
+    )
 
-    const takeStance = () => {
+    useEffect( () => {
         console.log( "posting taking stance" )
         console.log( stance )
         const requestOptions = {
@@ -29,10 +34,7 @@ function Response ( props ) {
                 setLikes( data.tot_like );
                 setDislikes( data.tot_dislike );
             } )
-    }
-
-
-    useEffect( takeStance, [ stance, props.id, props.type ] );
+    }, [ props.id, props.type, stance ] );
 
     const like = async () => {
         setStance( ( stance === 1 ) ? 0 : 1 );
@@ -54,10 +56,12 @@ function Response ( props ) {
                     <span className="comment-action">{ dislikes }</span>
                 </span>
             </Tooltip>
-            <span onClick={ dislike }>
-                <CommentOutlined />
-                <span className="comment-action">{ props.tot_comment }</span>
-            </span>
+            { props.type === 2 ?
+                <div /> :
+                <div className="div">
+                    <CommentOutlined /><span className="comment-action">{ props.tot_comment }</span>
+                </div>
+            }
         </div>
     )
 }

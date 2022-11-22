@@ -1,6 +1,5 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect, createElement } from 'react'
 import { LikeFilled, LikeOutlined, DislikeFilled, DislikeOutlined, CommentOutlined } from '@ant-design/icons'
-import { useEffect, createElement } from 'react'
 import { Input, Button, Comment, Tooltip, Form, Popconfirm, Avatar, message } from 'antd';
 import axios from 'axios';
 import qs from 'qs';
@@ -8,6 +7,7 @@ import IdeaObject from '../ideaobject/IdeaObject';
 import './SingleIdea.css'
 import { useLocation } from 'react-router-dom'
 import { UserContext } from '../../components/UserContext/UserContext'
+import Response from '../Response/Response';
 
 const { TextArea } = Input;
 
@@ -29,28 +29,48 @@ const Editor = ( { onChange, onSubmit, submitting, value } ) => (
     </>
 );
 
+
 function SingleIdea () {
     const location = useLocation()
-    const ideaData = {
-        username: location.state.idea.username,
-        avatar: location.state.idea.avatar,
-        content: location.state.idea.content,
-        time: location.state.idea.time,
-        tot_like: location.state.idea.tot_like,
-        tot_dislike: location.state.idea.tot_dislike,
-        tot_comment: location.state.idea.tot_comment,
-        id: location.state.idea.id,
-        stance: location.state.idea.stance
-    }
+    const [ ideaData, setIdeaData ] = useState( { id: 1 } )
     const { data } = useContext( UserContext );
     const [ submitting, setSubmitting ] = useState( false );
     const [ value, setValue ] = useState( '' );
     const commentError = () => {
         message.warning( 'Comment timeout' );
     };
-    const [ totcomment, setTotcomment ] = useState( ideaData.tot_comment );
+    const [ totcomment, setTotcomment ] = useState( null );
     const [ comment, setComment ] = useState( [] );
 
+    useEffect(
+        () => {
+            let requestOptions = {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: qs.stringify( {
+                    id: location.state.idea.id,
+                } ),
+            };
+            fetch( "/api/moment/getMoment/", requestOptions )
+                .then( res => res.json() )
+                .then( data => {
+                    setIdeaData( data )
+                    console.log( data )
+                    requestOptions = {
+                        method: "POST",
+                        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                        body: qs.stringify( {
+                            obj_type: 0,
+                            obj_id: data.id,
+                        } ),
+                    }
+                    fetch( "/api/response/findComments/", requestOptions )
+                        .then( res => res.json() ).then( data => {
+                            setComment( data );
+                            console.log( data );
+                        } )
+                } )
+        }, [ location.state.idea.id, value ] )
 
     const handleSubmit = () => {
         if ( !value ) {
@@ -83,26 +103,11 @@ function SingleIdea () {
         setValue( e.target.value );
     };
 
-    useEffect( () => {
-        const requestOptions = {
-            method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: qs.stringify( {
-                obj_type: 0,
-                obj_id: ideaData.id,
-            } ),
-        };
-        fetch( "/api/response/findComments/", requestOptions )
-            .then( res => res.json() ).then( data => {
-                setComment( data );
-            } )
-    }, [ ideaData.id ] )
 
     return (
         <div className="SingleIdea">
             <div className="Idea">
                 <IdeaObject
-                    className="IdeaContent"
                     id={ ideaData.id }
                     stance={ ideaData.stance }
                     tot_like={ ideaData.tot_like }
@@ -117,7 +122,7 @@ function SingleIdea () {
                 { comment.map(
                     ( comm, key ) => {
                         return (
-                            <div className="div">
+                            <div className="comment">
                                 <Comment
                                     author={ <a>{ comm.username }</a> }
                                     avatar={ <img src={ comm.avatar } alt="none" /> }
@@ -131,6 +136,13 @@ function SingleIdea () {
                                             <span>{ comm.time }</span>
                                         </Tooltip>
                                     }
+                                />
+                                <Response
+                                    stance={ comm.stance }
+                                    tot_like={ comm.tot_like }
+                                    tot_dislike={ comm.tot_dislike }
+                                    type={ 2 }
+                                    id={ comm.id }
                                 />
                             </div>
 
