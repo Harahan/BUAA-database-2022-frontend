@@ -2,7 +2,7 @@ import rhaenyra_targaryen from '../../assets/rhaenyra_targaryen.jpg';
 import { Box, Container, Grid, Card, CardActions, CardContent, Button, Typography, InputLabel, TextField, CardHeader } from '@mui/material';
 import { UploadOutlined } from '@ant-design/icons';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useContext } from 'react'
 import { UserContext } from '../../components/UserContext/UserContext';
 import { message } from 'antd';
@@ -41,18 +41,8 @@ const options = [
 function PostProduct() {
     const { data } = useContext(UserContext);
     const navigate = useNavigate();
-    const [value, setValue] = useState({
-        image: rhaenyra_targaryen,
-        file: null,
-        name: '',
-        description: '',
-        price: '',
-        priceSale: '',
-        deliveryLocation: '',
-        deliveryTime: '',
-        category: '',
-        color: [],
-    });
+    const location = useLocation()
+    const [value, setValue] = useState(location.state === null ? { image: rhaenyra_targaryen, color: [] } : location.state.info);
     const [fileList, setFileList] = useState([]);
     const onChange = ({ fileList: newFileList }) => {
         setFileList(newFileList);
@@ -73,6 +63,7 @@ function PostProduct() {
         return false;
     };
     const handleClick = () => {
+        console.log(value)
         let formatColor = value.color[0]
         for (let i = 1; i < value.color.length; i++) {
             formatColor += ',' + value.color[i]
@@ -87,17 +78,32 @@ function PostProduct() {
         formdata.append('deliveryTime', value.deliveryTime);
         formdata.append('category', value.category);
         formdata.append('color', formatColor);
-        fetch("/api/shop/postMerchandise/", {
-            method: "POST",
-            body: formdata
-        }).then(result => {
-            if (result.ok) {
-                message.success('Product posted successfully');
-                navigate('/profile/' + data.info.username)
-            } else {
-                message.error('Product posted failed');
-            }
-        })
+        formdata.append('id', value.id);
+        if (location.state === null) {
+            fetch("/api/shop/postMerchandise/", {
+                method: "POST",
+                body: formdata
+            }).then(result => {
+                if (result.ok) {
+                    message.success('Product posted successfully');
+                    navigate('/profile/' + data.info.username)
+                } else {
+                    message.error('Product posted failed');
+                }
+            })
+        } else {
+            fetch("/api/shop/fixMerchandise/", {
+                method: "POST",
+                body: formdata
+            }).then(result => {
+                if (result.ok) {
+                    message.success('Product fixed successfully');
+                    navigate('/profile/' + data.info.username)
+                } else {
+                    message.error('Product fixed failed');
+                }
+            })
+        }
     }
     return (
         <>
@@ -179,7 +185,7 @@ function PostProduct() {
                                                 md={12}
                                                 xs={12}
                                             >
-                                                <TextField required label="Name" placeholder='请输入商品名' fullWidth
+                                                <TextField required label="Name" placeholder='请输入商品名' fullWidth value={value.name}
                                                     onChange={(e) => {
                                                         setValue({
                                                             ...value,
@@ -192,7 +198,7 @@ function PostProduct() {
                                                 md={12}
                                                 xs={12}
                                             >
-                                                <TextField required label="Description" placeholder='请输入商品描述' fullWidth
+                                                <TextField required label="Description" placeholder='请输入商品描述' fullWidth value={value.description}
                                                     onChange={(e) => {
                                                         setValue({
                                                             ...value,
@@ -205,7 +211,7 @@ function PostProduct() {
                                                 md={6}
                                                 xs={12}
                                             >
-                                                <TextField required label="Price" placeholder='请输入商品价格' fullWidth
+                                                <TextField required label="Price" placeholder='请输入商品价格' fullWidth value={value.price}
                                                     type="number"
                                                     onChange={(e) => {
                                                         setValue({
@@ -219,7 +225,7 @@ function PostProduct() {
                                                 md={6}
                                                 xs={12}
                                             >
-                                                <TextField required label="Discount" placeholder='请输入商品折后价' fullWidth
+                                                <TextField required label="Discount" placeholder='请输入商品折后价' fullWidth value={value.priceSale}
                                                     type="number"
                                                     onChange={(e) => {
                                                         setValue({
@@ -233,7 +239,7 @@ function PostProduct() {
                                                 md={6}
                                                 xs={12}
                                             >
-                                                <TextField required label="Delivery Location" placeholder='请输入运送地点' fullWidth
+                                                <TextField required label="Delivery Location" placeholder='请输入运送地点' fullWidth value={value.deliveryLocation}
                                                     onChange={(e) => {
                                                         setValue({
                                                             ...value,
@@ -246,7 +252,7 @@ function PostProduct() {
                                                 md={6}
                                                 xs={12}
                                             >
-                                                <TextField required label="Delivery Time" placeholder='请输入运送时间' fullWidth
+                                                <TextField required label="Delivery Time" placeholder='请输入运送时间' fullWidth value={value.deliveryTime}
                                                     onChange={(e) => {
                                                         setValue({
                                                             ...value,
@@ -265,6 +271,7 @@ function PostProduct() {
                                                     fullWidth
                                                     select
                                                     SelectProps={{ native: true }}
+                                                    value={value.category}
                                                     onChange={(e) => {
                                                         setValue({
                                                             ...value,
@@ -344,7 +351,8 @@ function PostProduct() {
                                             disabled={value.file === null || value.name === '' || value.description === '' || value.price === '' || value.priceSale === '' ||
                                                 value.deliveryTime === '' || value.deliveryLocation === '' || value.category === '' || value.color.length === 0}
                                         >
-                                            Post Product
+                                            {location.state === null ?
+                                                "Post Product" : "Update Product"}
                                         </Button>
                                     </CardActions>
                                 </Card>

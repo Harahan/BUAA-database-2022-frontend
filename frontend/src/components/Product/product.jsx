@@ -1,10 +1,13 @@
 import { Box, Container, Grid, Card, CardActions, CardContent, Button, Typography } from '@mui/material';
-import { InputNumber } from 'antd'
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { InputNumber, message } from 'antd'
+import { useState, useEffect, useContext } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { ColorMultiPicker } from './components/color-utils';
 import qs from 'qs';
+import { UserContext } from '../UserContext/UserContext';
 function Product() {
+    const { data } = useContext(UserContext);
+    const navigate = useNavigate();
     const params = useParams()
     const [value, setValue] = useState(1);
     const [color, setColor] = useState();
@@ -53,6 +56,40 @@ function Product() {
                                 alignItems="center"
                             >
                                 <img src={info.image} width='150%' height={'150%'} />
+                            </Grid>
+                            <Grid
+                                container
+                                direction="row"
+                                justifyContent="center"
+                                alignItems="center"
+                            >
+                                {data.info.username === info.username ?
+                                    <>
+                                        <Button variant="contained" color="primary" sx={{ mt: 2, mr: 2 }}
+                                            onClick={() =>
+                                                navigate("/postProduct", {
+                                                    state: {
+                                                        info: info
+                                                    }
+                                                })}>edit</Button>
+                                        <Button variant="contained" color="primary" sx={{ mt: 2, mr: 2 }}
+                                            onClick={() => {
+                                                fetch("/api/shop/delMerchandise/", {
+                                                    method: "POST",
+                                                    headers: {
+                                                        "Content-Type": "application/x-www-form-urlencoded"
+                                                    },
+                                                    body: qs.stringify({
+                                                        id: params.id
+                                                    }),
+                                                }).then(res => {
+                                                    if (res.status === 200) {
+                                                        navigate("/profile/" + info.username)
+                                                        message.success("delete success")
+                                                    }
+                                                })
+                                            }}>delete</Button></> :
+                                    <Button variant="contained" color="primary" sx={{ mt: 2, mr: 2 }}>chat with seller</Button>}
                             </Grid>
                         </Grid>
                         <Grid
@@ -153,7 +190,7 @@ function Product() {
                                                 <ColorMultiPicker
                                                     name="colors"
                                                     selected={[color]}
-                                                    colors={info.color===undefined?[]:info.color}
+                                                    colors={info.color === undefined ? [] : info.color}
                                                     onChangeColor={(item) => {
                                                         if (color === item) {
                                                             setColor(null);
