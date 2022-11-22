@@ -6,7 +6,7 @@ import './postobject.css'
 import qs from 'qs'
 
 
-export default function Postobject ( { authorName, releaseTime, categories, title, html } ) {
+export default function Postobject ( { authorName, releaseTime, categories, title, html, followed } ) {
     const handleFollow = () => {
         console.log( "click" )
         const requestOptions = {
@@ -85,7 +85,7 @@ export default function Postobject ( { authorName, releaseTime, categories, titl
                         <p>{ authorName }</p>
                     </div>
                     <div className="followButton" onClick={ handleFollow }>
-                        <Button type="dashed">Follow</Button>
+                        <Button type="dashed">{ followed ? "Unfollow" : "Follow" }</Button>
                     </div>
                     <Button className="editButton" icon={ <EditOutlined /> } />
                     <Button className="deleteButton" icon={ <DeleteOutlined /> } onClick={ handleDelete } />

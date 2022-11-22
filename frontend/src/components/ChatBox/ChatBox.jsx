@@ -8,90 +8,113 @@ import { ChatContext } from '../ChatContext/ChatContext.jsx'
 import './chatbox.css'
 
 const ChatBox = () => {
-    const messages = [
-        {
-            sender: 1,
-            content: "hello",
-            time: "3 hours ago",
-        },
-        {
-            sender: 0,
-            content: "hello",
-            time: "1",
-        },
-        {
-            sender: 0,
-            content: "hello",
-            time: "2",
-        },
-        {
-            sender: 0,
-            content: "hello",
-            time: "3",
-        },
-        {
-            sender: 0,
-            content: "hello",
-            time: "4",
-        },
-        {
-            sender: 0,
-            content: "hello",
-            time: "5",
-        },
-        {
-            sender: 0,
-            content: "hello",
-            time: "6",
-        },
-        {
-            sender: 0,
-            content: "hello",
-            time: "7",
-        },
-        {
-            sender: 0,
-            content: "hello",
-            time: "8",
-        },
-        {
-            sender: 10,
-            content: "hello",
-            time: "9",
-        },
-        {
-            sender: 0,
-            content: "hello",
-            time: "just now",
-        }
-    ]
+    // const messages = [
+    //     {
+    //         sender: 1,
+    //         content: "hello",
+    //         time: "3 hours ago",
+    //     },
+    //     {
+    //         sender: 0,
+    //         content: "hello",
+    //         time: "1",
+    //     },
+    //     {
+    //         sender: 0,
+    //         content: "hello",
+    //         time: "2",
+    //     },
+    //     {
+    //         sender: 0,
+    //         content: "hello",
+    //         time: "3",
+    //     },
+    //     {
+    //         sender: 0,
+    //         content: "hello",
+    //         time: "4",
+    //     },
+    //     {
+    //         sender: 0,
+    //         content: "hello",
+    //         time: "5",
+    //     },
+    //     {
+    //         sender: 0,
+    //         content: "hello",
+    //         time: "6",
+    //     },
+    //     {
+    //         sender: 0,
+    //         content: "hello",
+    //         time: "7",
+    //     },
+    //     {
+    //         sender: 0,
+    //         content: "hello",
+    //         time: "8",
+    //     },
+    //     {
+    //         sender: 10,
+    //         content: "hello",
+    //         time: "9",
+    //     },
+    //     {
+    //         sender: 0,
+    //         content: "hello",
+    //         time: "just now",
+    //     }
+    // ]
     const [ messageContent, setMessageContent ] = useState( '' )
-    const [ allMessages, setAllMessages ] = useState( messages );
+    const [ allMessages, setAllMessages ] = useState( [] );
     const contentRef = useRef( null );
     const { data } = useContext( ChatContext );
     const ref = useRef();
 
     useEffect( () => {
         ref.current?.scrollIntoView( { behavior: "smooth" } );
-    }, [ messages ] )
+    }, [ allMessages ] )
 
     useEffect( () => {
         contentRef.current?.focus();
     }, [ messageContent ] );
 
+    useEffect( () => {
+        axios(
+            {
+                url: "http://localhost:3000/api/chat/getRecords/",
+                method: "GET",
+                params: {
+                    id: data.singleContact.id,
+                }
+            }
+        ).then( res => {
+            setAllMessages( res.data )
+        } ).catch(
+            err => {
+                console.log( err );
+                notification[ 'error' ]( {
+                    message: 'Error getting records',
+                } );
+            }
+        )
+    }, [ data.singleContact.id ] );
+
     const sendMessage = () => {
         let formData = new FormData();
-        formData.append( "username", data.singleContact.username );
-        formData.append( "message", messageContent );
+        formData.append( "id", data.singleContact.id );
+        formData.append( "content", messageContent );
         console.log( messageContent );
         axios(
             {
-                url: "http://localhost:3000/api/sendmessage",
+                url: "http://localhost:3000/api/chat/sendRecord/",
                 method: "POST",
                 data: formData,
             }
         ).then( res => {
-            setAllMessages( res );
+            setAllMessages( res.data );
+            console.log( res.data );
+            // console.log( res.data.slice().reverse() );
         } ).catch(
             err => {
                 console.log( err );
@@ -107,7 +130,7 @@ const ChatBox = () => {
         <div className='ChatBox'>
             <div className="chatInfo">
                 <div className="UserName">
-                    { data.singleContact.username }
+                    { data.singleContact.name === "" ? data.singleContact.owner : data.singleContact.name }
                 </div>
                 <div className="UserPage">
                     <Button
@@ -123,9 +146,12 @@ const ChatBox = () => {
                         ( msg, key ) => {
                             return (
                                 <Message
+                                    key={ key }
                                     time={ msg.time }
                                     content={ msg.content }
-                                    sender={ msg.sender } />
+                                    sender={ msg.sender }
+                                    avatar={ msg.avatar }
+                                />
                             );
                         }
                     )

@@ -20,7 +20,8 @@ export default function Postpage () {
         title: 'Rhaenyra Targaryen ? Will She make a fine queen?',
         content: "She owned up to her misdeeds. Rhaenys knew that a lot of people misunderstood Rhaenyra’s intentions and had formed a very different opinion. They saw her as the fierce Targaryen princess who wouldn’t mind spilling blood if it came to that. They saw her as a person who wouldn’t mind indulging in immoral activities and mocking the moral compass of society. But Rhaenyra was not the barbarian that people thought her to be. She was flamboyant in her approach, but she had a kind heart999999999999",
         image: rhaenyra_targaryen,
-        userPhoto: rhaenyra_targaryen
+        userPhoto: rhaenyra_targaryen,
+        followed: true
     } : state;
 
     return (
@@ -32,6 +33,7 @@ export default function Postpage () {
                 content={ Article.digest }
                 html={ Article.html }
                 categories={ [ Article.categories ] }
+                followed={ Article.followed }
             />
             <Sidebar />
         </div>

@@ -1,11 +1,10 @@
 import React from 'react'
 import { useContext } from 'react';
 import './message.css'
-import { ChatContext } from '../ChatContext/ChatContext.jsx'
+import { UserContext } from '../UserContext/UserContext'
 
 function Message ( props, ref ) {
-    const { data } = useContext( ChatContext );
-
+    const { data } = useContext( UserContext );
     return (
         <div className={ ( props.sender === 1 ) ? "Message" : "Message Own" } >
             <div className="msgInfo">
@@ -13,7 +12,7 @@ function Message ( props, ref ) {
                     className='profilePic'
                     rel="noreferrer"
                     alt="none"
-                    src={ data.singleContact.avatar }
+                    src={ ( props.sender === 1 ) ? props.avatar : data.info.avatar }
                 />
                 <span>{ props.time }</span>
             </div>

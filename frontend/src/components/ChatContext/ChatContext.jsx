@@ -5,8 +5,15 @@ export const ChatContext = createContext();
 export const ChatContextProvider = ( { children } ) => {
     const init_state = {
         singleContact: {
-            username: "1111",
-            latest: "fuck",
+            id: 12,
+            name: "",
+            time: "1111",
+            owner: "",
+            latest: {
+                username: "czy",
+                content: "fuck",
+                time: "sss",
+            },
             avatar: "//images.weserv.nl/?url=https://upload-images.jianshu.io/upload_images/5809200-a99419bb94924e6d.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240",
         }
     };
