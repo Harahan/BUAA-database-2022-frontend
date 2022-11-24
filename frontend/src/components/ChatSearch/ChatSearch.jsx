@@ -78,7 +78,6 @@ function ChatSearch () {
                     allowClear={ true }
                     bordered={ false }
                     style={ {
-                        width: 260,
                         backgroundColor: '#ECEBEB',
                     } }
                 />

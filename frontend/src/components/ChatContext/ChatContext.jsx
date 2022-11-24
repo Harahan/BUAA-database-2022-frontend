@@ -21,6 +21,8 @@ export const ChatContextProvider = ( { children } ) => {
     const chatReducer = ( state, action ) => {
         switch ( action.type ) {
             case "change":
+                console.log( state );
+                console.log( action.payload );
                 return {
                     singleContact: action.payload
                 };
