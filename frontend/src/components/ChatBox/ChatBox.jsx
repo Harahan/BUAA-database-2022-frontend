@@ -8,63 +8,6 @@ import { ChatContext } from '../ChatContext/ChatContext.jsx'
 import './chatbox.css'
 
 const ChatBox = () => {
-    // const messages = [
-    //     {
-    //         sender: 1,
-    //         content: "hello",
-    //         time: "3 hours ago",
-    //     },
-    //     {
-    //         sender: 0,
-    //         content: "hello",
-    //         time: "1",
-    //     },
-    //     {
-    //         sender: 0,
-    //         content: "hello",
-    //         time: "2",
-    //     },
-    //     {
-    //         sender: 0,
-    //         content: "hello",
-    //         time: "3",
-    //     },
-    //     {
-    //         sender: 0,
-    //         content: "hello",
-    //         time: "4",
-    //     },
-    //     {
-    //         sender: 0,
-    //         content: "hello",
-    //         time: "5",
-    //     },
-    //     {
-    //         sender: 0,
-    //         content: "hello",
-    //         time: "6",
-    //     },
-    //     {
-    //         sender: 0,
-    //         content: "hello",
-    //         time: "7",
-    //     },
-    //     {
-    //         sender: 0,
-    //         content: "hello",
-    //         time: "8",
-    //     },
-    //     {
-    //         sender: 10,
-    //         content: "hello",
-    //         time: "9",
-    //     },
-    //     {
-    //         sender: 0,
-    //         content: "hello",
-    //         time: "just now",
-    //     }
-    // ]
     const [ messageContent, setMessageContent ] = useState( '' )
     const [ allMessages, setAllMessages ] = useState( [] );
     const contentRef = useRef( null );

@@ -12,6 +12,7 @@
 
 .LeftBox, .RightBox {
     flex:3;
+    display:flex;
 }
 
 .MiddleBox {
@@ -43,4 +44,8 @@
     color: grey;
     cursor: pointer;
     margin-left: 15px;
+}
+
+.Logout {
+    padding-left: 10%;
 }
