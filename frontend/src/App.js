@@ -10,7 +10,6 @@ import Profile from './pages/profile/Profile'
 import WrappedRegistrationForm from './pages/login/register'
 import SinglePost from './pages/postpage/postpage'
 import PostProduct from './components/Product/postProduct';
-import Comment from './components/comment/comment';
 import {
     BrowserRouter as Router,
     Route,
@@ -36,7 +35,6 @@ function App() {
                 <Route exact path='/singleidea' element={<SingleIdea />} />
                 <Route exact path='/product/:id' element={<Product />} />
                 <Route exact path='/postProduct' element={<PostProduct />} />
-                <Route exact path='/comment' element={<Comment />} />
             </Routes>
         </Router>
     );

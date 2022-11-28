@@ -25,7 +25,7 @@ export default function ProductsPage({ username }) {
             new: filter.status === "new",
             category: filter.category === "All" ? "" : filter.category,
             color: filter.color,
-            priceSale: filter.price === "below" ? 0 : filter.price === "between" ? 1 : 2,
+            priceSale: filter.price === "below" ? 0 : filter.price === "between" ? 1 : filter.price === "above" ? 2 : 3,
             rank: filter.rating === null ? 0 : filter.rating,
             username: username,
             op: filter.op === null ? 3 : filter.op,

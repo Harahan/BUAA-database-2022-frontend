@@ -5,6 +5,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { ColorMultiPicker } from './components/color-utils';
 import qs from 'qs';
 import { UserContext } from '../UserContext/UserContext';
+import ProductComment from './productComment';
 function Product() {
     const { data } = useContext(UserContext);
     const navigate = useNavigate();
@@ -138,7 +139,7 @@ function Product() {
                                                 item
                                             >
                                                 <Typography color="#FF0000" display={'inline'} fontSize={20} marginRight={1}>
-                                                    $
+                                                    ￥
                                                 </Typography>
                                                 <Typography color="#FF0000" display={'inline'} fontSize={24} sx={{ fontWeight: 'bold' }}>
                                                     {info.price}
@@ -250,6 +251,7 @@ function Product() {
                     </Grid>
                 </Container>
             </Box>
+            <ProductComment id={params.id} />
         </>
     )
 }

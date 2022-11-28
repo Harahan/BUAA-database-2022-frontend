@@ -10,7 +10,7 @@ function result(format, key = '.00') {
 }
 function fCurrency(number) {
   const format = number ? numeral(number).format('$0,0.00') : '';
-  return result(format, '.00');
+  return result(format, '.00').replace('$', '￥');
 }
 const StyledProductImg = styled('img')({
   top: 0,
@@ -66,7 +66,7 @@ export default function ShopProductCard({ product }) {
                 textDecoration: 'line-through',
               }}
             >
-              {price && fCurrency(price)}
+              {price!==priceSale && fCurrency(price)}
             </Typography>
             &nbsp;
             {fCurrency(priceSale)}

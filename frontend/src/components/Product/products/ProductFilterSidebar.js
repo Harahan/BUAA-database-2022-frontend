@@ -23,9 +23,10 @@ export const SORT_BY_OPTIONS = [
 export const FILTER_STATUS_OPTIONS = ['All', 'Sale', 'New'];
 export const FILTER_CATEGORY_OPTIONS = ['All', 'Food', 'Clothing', 'Book', 'Decoration', 'Digital', 'Other'];
 export const FILTER_PRICE_OPTIONS = [
-  { value: 'below', label: 'Below $25' },
-  { value: 'between', label: 'Between $25 - $75' },
-  { value: 'above', label: 'Above $75' },
+  { value: 'all', label: 'All' },
+  { value: 'below', label: 'Below ￥25' },
+  { value: 'between', label: 'Between ￥25 - ￥75' },
+  { value: 'above', label: 'Above ￥75' },
 ];
 export const FILTER_COLOR_OPTIONS = [
   '#00AB55',
