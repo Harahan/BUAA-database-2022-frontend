@@ -34,6 +34,7 @@ export default function Postpage () {
                 html={ Article.html }
                 categories={ [ Article.categories ] }
                 followed={ Article.followed }
+                id={ Article.id }
             />
             <Sidebar />
         </div>

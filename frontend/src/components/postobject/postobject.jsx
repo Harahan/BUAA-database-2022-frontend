@@ -1,11 +1,33 @@
 import React from 'react'
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
-import { Button, Comment, Avatar, message } from 'antd'
+import { Button, Comment, Avatar, message, Tooltip, Input, Form, } from 'antd'
+import { UserContext } from '../UserContext/UserContext'
+import Response from '../Response/Response'
+import { useState, useEffect, useContext } from 'react'
 import './postobject.css'
 import qs from 'qs'
 
+const { TextArea } = Input;
 
-export default function Postobject ( { authorName, releaseTime, categories, title, html, followed } ) {
+const Editor = ( { onChange, onSubmit, submitting, value } ) => (
+    <>
+        <Form.Item>
+            <TextArea
+                rows={ 4 }
+                onChange={ onChange }
+                value={ value }
+                allowClear={ true }
+            />
+        </Form.Item>
+        <Form.Item>
+            <Button htmlType="submit" loading={ submitting } onClick={ onSubmit } type="primary">
+                Comment
+            </Button>
+        </Form.Item>
+    </>
+);
+
+export default function Postobject ( { authorName, releaseTime, categories, title, html, followed, id } ) {
     const handleFollow = () => {
         console.log( "click" )
         const requestOptions = {
@@ -75,6 +97,63 @@ export default function Postobject ( { authorName, releaseTime, categories, titl
         </Comment>
     );
 
+    const commentError = () => {
+        message.warning( 'Comment timeout' );
+    };
+
+    const [ value, setValue ] = useState( '' );
+    const [ submitting, setSubmitting ] = useState( false );
+    const { data } = useContext( UserContext );
+
+    const handleSubmit = () => {
+        if ( !value ) {
+            return;
+        }
+        const requestOptions = {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: qs.stringify( {
+                obj_type: 1,
+                obj_id: id,
+                content: value
+            } ),
+        };
+        console.log( value );
+        fetch( "/api/response/addComment/", requestOptions )
+            .then( res => res.json() ).then( data => {
+                setSubmitting( false );
+                console.log( data );
+                setValue( "" );
+            } )
+        setTimeout( () => {
+            setSubmitting( false );
+            commentError();
+        }, 100000 );
+    };
+
+    const handleChange = ( e ) => {
+        setValue( e.target.value );
+    };
+
+    const [ html_content, setHtml_content ] = useState( "" );
+    const [ comment, setComment ] = useState( [] );
+    const [ totcomment, setTotcomment ] = useState( null );
+    useEffect( () => {
+        setHtml_content( html );
+        let requestOptions = {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: qs.stringify( {
+                obj_type: 1,
+                obj_id: id,
+            } ),
+        }
+        fetch( "/api/response/findComments/", requestOptions )
+            .then( res => res.json() ).then( data => {
+                setComment( data );
+                console.log( data );
+            } )
+    }, [ id, value, html ] )
     return (
         <div className="postObject">
             <div className="postPadding">
@@ -94,15 +173,54 @@ export default function Postobject ( { authorName, releaseTime, categories, titl
                 </div>
                 <div className="postContent">
                     <div className="editor-content-view"
-                        dangerouslySetInnerHTML={ { __html: html === "" ? "null" : html } }
+                        dangerouslySetInnerHTML={ { __html: html_content } }
                     />
                 </div>
-                <ExampleComment>
-                    <ExampleComment>
-                        <ExampleComment />
-                        <ExampleComment />
-                    </ExampleComment>
-                </ExampleComment>
+                <div className="blogComment">
+                    { comment.map(
+                        ( comm, key ) => {
+                            return (
+                                <div className="comment">
+                                    <Comment
+                                        author={ <a>{ comm.username }</a> }
+                                        avatar={ <img src={ comm.avatar } alt="none" /> }
+                                        content={
+                                            <p>
+                                                { comm.content }
+                                            </p>
+                                        }
+                                        datetime={
+                                            <Tooltip title={ comm.real_time }>
+                                                <span>{ comm.time }</span>
+                                            </Tooltip>
+                                        }
+                                    />
+                                    <Response
+                                        stance={ comm.stance }
+                                        tot_like={ comm.tot_like }
+                                        tot_dislike={ comm.tot_dislike }
+                                        type={ 2 }
+                                        id={ comm.id }
+                                    />
+                                </div>
+
+                            )
+                        }
+                    ) }
+                </div>
+                <div className="commentBox" >
+                    <Comment
+                        avatar={ <Avatar src={ data.info.avatar } alt="None" /> }
+                        content={
+                            <Editor
+                                onSubmit={ handleSubmit }
+                                onChange={ handleChange }
+                                submitting={ submitting }
+                                value={ value }
+                            />
+                        }
+                    />
+                </div>
             </div>
         </div>
     )

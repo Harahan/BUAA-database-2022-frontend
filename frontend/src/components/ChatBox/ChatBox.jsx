@@ -32,6 +32,7 @@ const ChatBox = () => {
                 }
             }
         ).then( res => {
+            console.log( data.singleContact )
             setAllMessages( res.data )
         } ).catch(
             err => {
