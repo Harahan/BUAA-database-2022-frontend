@@ -31,6 +31,7 @@ export default function BlogEditor ( { oriHtml, oriTitle } ) {
 
     i18nChangeLanguage( 'en' )
 
+
     const postArticle = () => {
         setLoading( true );
         let formData = new FormData();
@@ -60,6 +61,7 @@ export default function BlogEditor ( { oriHtml, oriTitle } ) {
         }
         )
     };
+
 
     const toolbarConfig = {}
     const editorConfig = {
@@ -171,6 +173,10 @@ export default function BlogEditor ( { oriHtml, oriTitle } ) {
     useEffect( () => {
         editInputRef.current?.focus();
     }, [ inputValue ] );
+
+    useEffect( () => {
+        setHtml( oriHtml );
+    }, [ oriHtml ] )
     const handleClose = ( removedTag ) => {
         const newTags = tags.filter( ( tag ) => tag !== removedTag );
         console.log( newTags );

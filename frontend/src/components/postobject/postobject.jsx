@@ -5,6 +5,7 @@ import { UserContext } from '../UserContext/UserContext'
 import Response from '../Response/Response'
 import { useState, useEffect, useContext } from 'react'
 import './postobject.css'
+import { useNavigate } from 'react-router-dom';
 import qs from 'qs'
 
 const { TextArea } = Input;
@@ -27,7 +28,9 @@ const Editor = ( { onChange, onSubmit, submitting, value } ) => (
     </>
 );
 
+
 export default function Postobject ( { authorName, releaseTime, categories, title, html, followed, id } ) {
+    const navigate = useNavigate();
     const handleFollow = () => {
         console.log( "click" )
         const requestOptions = {
@@ -57,6 +60,7 @@ export default function Postobject ( { authorName, releaseTime, categories, titl
                 console.log( error );
             } );
     }
+
     const handleDelete = () => {
         console.log( "delete" )
         const requestOptions = {
@@ -77,25 +81,10 @@ export default function Postobject ( { authorName, releaseTime, categories, titl
                     message.error( '删除失败，请稍后尝试' );
                 } else if ( data.code === 0 ) {
                     message.success( '删除成功' );
-                    window.location.href = "/home";
+                    window.location.href = "/";
                 }
             } )
     }
-    const ExampleComment = ( { children } ) => (
-        <Comment
-            actions={ [ <span key="comment-nested-reply-to">Reply to</span> ] }
-            author={ <a>Han Solo</a> }
-            avatar={ <Avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" /> }
-            content={
-                <p>
-                    We supply a series of design principles, practical patterns and high quality design
-                    resources (Sketch and Axure).
-                </p>
-            }
-        >
-            { children }
-        </Comment>
-    );
 
     const commentError = () => {
         message.warning( 'Comment timeout' );
@@ -138,6 +127,13 @@ export default function Postobject ( { authorName, releaseTime, categories, titl
     const [ html_content, setHtml_content ] = useState( "" );
     const [ comment, setComment ] = useState( [] );
     const [ totcomment, setTotcomment ] = useState( null );
+
+    const handleEdit = () => {
+        navigate( `/edit/${ authorName }/${ title }` )
+    }
+
+
+
     useEffect( () => {
         setHtml_content( html );
         let requestOptions = {
@@ -165,7 +161,7 @@ export default function Postobject ( { authorName, releaseTime, categories, titl
                     <div className="followButton" onClick={ handleFollow }>
                         <Button type="dashed">{ followed ? "Unfollow" : "Follow" }</Button>
                     </div>
-                    <Button className="editButton" icon={ <EditOutlined /> } />
+                    <Button className="editButton" icon={ <EditOutlined /> } onClick={ handleEdit } />
                     <Button className="deleteButton" icon={ <DeleteOutlined /> } onClick={ handleDelete } />
                     <div className="postTime">
                         { releaseTime }

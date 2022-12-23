@@ -26,7 +26,10 @@ function App() {
                 <Route exact path="/" element={<Home />} />
                 <Route exact path="/follow" element={<Follow />} />
                 <Route exact path="/shop" element={<Shop />} />
-                <Route exact path="/write" element={<Write/>} />
+                <Route exact path="/write" element={<Write 
+                                                        oriHtml={""}
+                                                        oriTitle={"Title"}
+                                                    />} />
                 <Route exact path="/chat" element={<Chat />} />
                 <Route exact path="/login" element={<Login />} />
                 <Route exact path='/register' element={<WrappedRegistrationForm />} />
@@ -35,6 +38,10 @@ function App() {
                 <Route exact path='/singleidea' element={<SingleIdea />} />
                 <Route exact path='/product/:id' element={<Product />} />
                 <Route exact path='/postProduct' element={<PostProduct />} />
+                <Route exact path="/edit/:authorName/:title" element={<Write 
+                                                        oriHtml={""}
+                                                        oriTitle={"Title"}
+                                                    />} />
             </Routes>
         </Router>
     );
