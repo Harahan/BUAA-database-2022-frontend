@@ -43,7 +43,7 @@ export default function BlogEditor ( { oriHtml, oriTitle } ) {
         formData.append( "html", htmlFile );
         formData.append( "tags", tags );
         formData.append( "title", title );
-        formData.append( "cover", firstPic );
+        formData.append( "cover", firstPic === null ? "" : firstPic );
         console.log( firstPic );
         axios(
             {

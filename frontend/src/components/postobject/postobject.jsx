@@ -71,19 +71,23 @@ export default function Postobject ( { authorName, releaseTime, categories, titl
                 tit: title
             } ),
         };
-        fetch( "/api/blog/delete/", requestOptions )
-            .then( res => res.json() ).then( data => {
-                if ( data.code === 3 ) {
-                    alert( '还未登录或权限不足' );
-                } else if ( data.code === 1 ) {
-                    message.success( '文章不存在' );
-                } else if ( data.code === 2 ) {
-                    message.error( '删除失败，请稍后尝试' );
-                } else if ( data.code === 0 ) {
-                    message.success( '删除成功' );
-                    window.location.href = "/";
-                }
-            } )
+        if ( authorName === data.info.username ) {
+            fetch( "/api/blog/delete/", requestOptions )
+                .then( res => res.json() ).then( data => {
+                    if ( data.code === 3 ) {
+                        alert( '还未登录或权限不足' );
+                    } else if ( data.code === 1 ) {
+                        message.success( '文章不存在' );
+                    } else if ( data.code === 2 ) {
+                        message.error( '删除失败，请稍后尝试' );
+                    } else if ( data.code === 0 ) {
+                        message.success( '删除成功' );
+                        window.location.href = "/";
+                    }
+                } )
+        } else {
+            alert( '还未登录或权限不足' );
+        }
     }
 
     const commentError = () => {
@@ -129,7 +133,12 @@ export default function Postobject ( { authorName, releaseTime, categories, titl
     const [ totcomment, setTotcomment ] = useState( null );
 
     const handleEdit = () => {
-        navigate( `/edit/${ authorName }/${ title }` )
+        console.log( data.info )
+        if ( authorName === data.info.username ) {
+            navigate( `/edit/${ authorName }/${ title }` )
+        } else {
+            alert( '还未登录或权限不足' );
+        }
     }
 
 
