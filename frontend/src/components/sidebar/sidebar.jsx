@@ -1,9 +1,9 @@
 import './sidebar.css'
 
-export default function Sidebar({ click }) {
-    const filterTheme = (theme) => {
-        console.log(theme)
-        click(theme)
+export default function Sidebar ( { click } ) {
+    const filterTheme = ( theme ) => {
+        console.log( theme )
+        click( theme )
         //navigate( "/" + { theme } )
     }
     return (
@@ -24,12 +24,12 @@ export default function Sidebar({ click }) {
             </div>
             <div className="sidebarItem">
                 <ul className="sidebarList">
-                    <li className="sidebarListItem" onClick={() => filterTheme("tech")}>Technology</li>
-                    <li className="sidebarListItem" onClick={() => filterTheme("food")}>Food</li>
-                    <li className="sidebarListItem" onClick={() => filterTheme("music")}>Music</li>
-                    <li className="sidebarListItem" onClick={() => filterTheme("business")}>Business</li>
-                    <li className="sidebarListItem" onClick={() => filterTheme("tv")}>Movies & TV</li>
-                    <li className="sidebarListItem" onClick={() => filterTheme("sports")}>Sport</li>
+                    <li className="tagItem" onClick={ () => filterTheme( "tech" ) }>Technology</li>
+                    <li className="tagItem" onClick={ () => filterTheme( "food" ) }>Food</li>
+                    <li className="tagItem" onClick={ () => filterTheme( "music" ) }>Music</li>
+                    <li className="tagItem" onClick={ () => filterTheme( "business" ) }>Business</li>
+                    <li className="tagItem" onClick={ () => filterTheme( "tv" ) }>Movies & TV</li>
+                    <li className="tagItem" onClick={ () => filterTheme( "sports" ) }>Sport</li>
                 </ul>
             </div>
         </div>
