@@ -26,7 +26,7 @@ export default function BlogPostsSearch({ posts, username }) {
           }),
         }).then(res => res.json()).then(data => {
           fetch(
-            data[0].html.replace('39.106.5.232:3000', '39.106.5.232:3000/api'), {
+            data[0].html.replace('39.106.5.232', '39.106.5.232:3000/api'), {
             method: 'get',
             responseType: 'blob'
           }).then(
