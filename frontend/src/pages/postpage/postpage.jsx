@@ -9,6 +9,7 @@ import { convertLegacyProps } from 'antd/lib/button/button';
 export default function Postpage () {
     let location = useLocation();
     let state = location.state;
+    console.log( state )
     const Article = state == null ? {
         authorName: "default",
         releaseTime: "30 minutes ago",
