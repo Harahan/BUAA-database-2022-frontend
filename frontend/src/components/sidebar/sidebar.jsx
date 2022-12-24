@@ -24,12 +24,12 @@ export default function Sidebar ( { click } ) {
             </div>
             <div className="sidebarItem">
                 <ul className="sidebarList">
-                    <li className="tagItem" onClick={ () => filterTheme( "tech" ) }>Technology</li>
-                    <li className="tagItem" onClick={ () => filterTheme( "food" ) }>Food</li>
-                    <li className="tagItem" onClick={ () => filterTheme( "music" ) }>Music</li>
-                    <li className="tagItem" onClick={ () => filterTheme( "business" ) }>Business</li>
-                    <li className="tagItem" onClick={ () => filterTheme( "tv" ) }>Movies & TV</li>
-                    <li className="tagItem" onClick={ () => filterTheme( "sports" ) }>Sport</li>
+                    <li className="tagItem" onClick={ () => filterTheme( "Technology" ) }>Technology</li>
+                    <li className="tagItem" onClick={ () => filterTheme( "Food" ) }>Food</li>
+                    <li className="tagItem" onClick={ () => filterTheme( "Music" ) }>Music</li>
+                    <li className="tagItem" onClick={ () => filterTheme( "Business" ) }>Business</li>
+                    <li className="tagItem" onClick={ () => filterTheme( "MoviesTV" ) }>Movies & TV</li>
+                    <li className="tagItem" onClick={ () => filterTheme( "Sport" ) }>Sport</li>
                 </ul>
             </div>
         </div>
