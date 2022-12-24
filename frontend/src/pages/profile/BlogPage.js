@@ -43,7 +43,7 @@ export default function BlogPage({ username, modifiable }) {
                 </Stack>
 
                 <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">
-                    <BlogPostsSearch posts={posts} />
+                    <BlogPostsSearch posts={posts} username={username} />
                     <BlogPostsSort options={SORT_OPTIONS} onSort={onSort} value={value} />
                 </Stack>
 

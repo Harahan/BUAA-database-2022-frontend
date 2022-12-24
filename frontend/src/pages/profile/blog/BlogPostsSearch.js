@@ -3,6 +3,8 @@ import { styled } from '@mui/material/styles';
 import { Autocomplete, InputAdornment, Popper, TextField } from '@mui/material';
 // components
 import Iconify from '../Iconify';
+import { useNavigate } from 'react-router-dom';
+import qs from 'qs';
 
 // ----------------------------------------------------------------------
 
@@ -10,9 +12,22 @@ const StyledPopper = styled((props) => <Popper placement="bottom-start" {...prop
   width: '280px !important',
 });
 
-export default function BlogPostsSearch({ posts }) {
+export default function BlogPostsSearch({ posts, username }) {
+  const navigate = useNavigate();
   return (
     <Autocomplete
+      onInputChange={(event, value) => {
+        fetch(`/api/blog/fetchOne/`, {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: qs.stringify({
+            author_Name: username,
+            tit: value,
+          }),
+        }).then(res => res.json()).then(data => {
+          navigate('/postpage', { state: data[0] })
+        })
+      }}
       sx={{ width: 280 }}
       autoHighlight
       popupIcon={null}
