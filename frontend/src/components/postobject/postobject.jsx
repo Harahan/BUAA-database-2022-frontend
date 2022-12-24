@@ -168,7 +168,9 @@ export default function Postobject ( { authorName, releaseTime, categories, titl
                         <p>{ authorName }</p>
                     </div>
                     <div className="followButton" onClick={ handleFollow }>
-                        <Button type="dashed">{ followed ? "Unfollow" : "Follow" }</Button>
+                        {
+                            authorName === data.info.username ? "" : <Button type="dashed">{ followed ? "Unfollow" : "Follow" }</Button>
+                        }
                     </div>
                     <Button className="editButton" icon={ <EditOutlined /> } onClick={ handleEdit } />
                     <Button className="deleteButton" icon={ <DeleteOutlined /> } onClick={ handleDelete } />
@@ -188,7 +190,7 @@ export default function Postobject ( { authorName, releaseTime, categories, titl
                                 <div className="comment">
                                     <Comment
                                         author={ <a>{ comm.username }</a> }
-                                        avatar={ <img src={ comm.avatar } alt="none" /> }
+                                        avatar={ <img src={ comm.avatar } data-src="../../assets/loading.png" alt="none" /> }
                                         content={
                                             <p>
                                                 { comm.content }

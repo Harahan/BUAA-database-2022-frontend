@@ -1,14 +1,18 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
 import "./post.css";
-import { UserOutlined } from '@ant-design/icons';
+import { UserOutlined, LoadingOutlined } from '@ant-design/icons';
 import { Badge, Avatar, Button, Tag, Image, message } from 'antd';
 import SinglePost from '../../pages/postpage/postpage.jsx'
 import Postpage from '../../pages/postpage/postpage.jsx';
+import { UserContext } from '../UserContext/UserContext';
+import LazyLoad from 'react-lazyload';
+import loading from '../../assets/loading.png'
 import qs from 'qs'
 
 export default function Post ( { authorName, releaseTime, categories, title, digest, image, userPhoto, followed } ) {
     const [ following, setFollowing ] = useState( followed );
+    const { data } = useContext( UserContext )
     const handleFollow = () => {
         setFollowing( !following );
         const requestOptions = {
@@ -73,15 +77,17 @@ export default function Post ( { authorName, releaseTime, categories, title, dig
             <div className="postInfo">
                 <div className="authorInfo">
                     <div className="profilePhoto">
-                        <Badge count={ 1 } className="AuthorProfile">
+                        <div className="AuthorProfile">
                             <Avatar size='large' src={ userPhoto } onClick={ handleClickPhoto } />
-                        </Badge>
+                        </div>
                     </div>
                     <div className="authorName">
                         <p>{ authorName }</p>
                     </div>
-                    <div className="followButton">
-                        <Button type="dashed" onClick={ handleFollow }>{ following ? "Unfollow" : "Follow" } </Button>
+                    <div className="followButton">{
+                        authorName === data.info.username ? "" :
+                            <Button type="dashed" onClick={ handleFollow }>{ following ? "Unfollow" : "Follow" } </Button>
+                    }
                     </div>
                     <div className="postTime">
                         { releaseTime }
@@ -105,7 +111,9 @@ export default function Post ( { authorName, releaseTime, categories, title, dig
             <div className="postDigest" onClick={ handleJump }>
                 { digest }
             </div>
-            <img className="postImg" src={ image } alt="" />
-        </div>
+            <LazyLoad placeholder={ <LoadingOutlined style={ { fontSize: '50px', color: '#08c' } } /> }>
+                <img className="postImg" src={ image } alt="" />
+            </LazyLoad>
+        </div >
     )
 }

@@ -7,6 +7,7 @@ import qs from 'qs'
 const Write = ( props ) => {
     const params = useParams();
     const [ html_content, setHtml_content ] = useState( "" );
+    const [ cover, setCover ] = useState( "" );
     fetch( `/api/blog/fetchOne/`, {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -25,6 +26,7 @@ const Write = ( props ) => {
                 let article = data[ 0 ];
                 res.text().then( html_data => {
                     article.html = html_data;
+                    setCover( article.cover );
                     setHtml_content( article.html );
                     // console.log( article.html )
                 } )
@@ -36,6 +38,7 @@ const Write = ( props ) => {
             <BlogEditor
                 oriHtml={ params ? html_content : props.oriHtml }
                 oriTitle={ params ? params.title : props.oriTitle }
+                oriCover={ cover }
             />
         </div>
     );

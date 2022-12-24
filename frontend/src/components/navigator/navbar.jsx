@@ -80,10 +80,10 @@ export default function Navbar () {
                 </ul>
             </div>
             <div className="RightBox" >
-                <Badge count={ 1 } className="UserProfile">
+                <div className="UserProfile">
                     { data.status ? <Avatar size='large' src={ data.info.avatar } onClick={ handleClick } /> :
                         <Avatar size='large' icon={ <UserOutlined /> } onClick={ handleClick } /> }
-                </Badge>
+                </div>
                 <div className="Logout">
                     <Tooltip title="log out" className="logout">
                         <Button danger

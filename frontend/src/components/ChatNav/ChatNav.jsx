@@ -9,18 +9,21 @@ import qs from 'qs'
 import { UserContext } from '../UserContext/UserContext';
 import { ChatContext } from '../ChatContext/ChatContext';
 import { useNavigate } from 'react-router-dom'
+import { ContactContext } from '../ChatContext/ContactContext';
 
 
 function ChatNav () {
     const navigate = useNavigate();
     const { data } = useContext( UserContext );
     const { dispatch } = useContext( ChatContext );
+    // const { contactdispatch } = useContext( ContactContext );
     const [ contacts, setContacts ] = useState( [] )
     const { Column, ColumnGroup } = Table;
     const [ selectedRowKeys, setSelectedRowKeys ] = useState( [] );
     const [ searchText, setSearchText ] = useState( '' );
     const [ searchedColumn, setSearchedColumn ] = useState( '' );
     const [ selectedName, setSelectedName ] = useState( '' );
+    const [ ppl, setPpl ] = useState( 0 );
     const searchInput = useRef( null );
     const hasSelected = selectedRowKeys.length > 0;
     const { Search } = Input;
@@ -38,13 +41,16 @@ function ChatNav () {
         // console.log( newSelectedRowKeys )
         let selected = "";
         var k;
+        var p = 1;
         selected += data.info.username
         for ( k in newSelectedRowKeys ) {
             selected += ",";
+            p += 1;
             selected += newSelectedRowKeys[ k ];
         }
         setSelectedRowKeys( newSelectedRowKeys );
         setSelectedName( selected );
+        setPpl( p );
     };
 
     const rowSelection = {
@@ -87,11 +93,32 @@ function ChatNav () {
                 name: value
             } ),
         };
-        fetch( "/api/chat/createChat/", requestOptions )
-            .then( res => res.json() ).then( data => {
-                console.log( data );
-                dispatch( { type: "change", payload: data } )
-            } )
+        console.log( ppl );
+        if ( ppl > 2 && value.length === 0 ) {
+            alert( "Please input name for the groupchat" )
+        } else {
+            fetch( "/api/chat/createChat/", requestOptions )
+                .then( res => res.json() ).then( data => {
+                    console.log( data );
+                    dispatch( { type: "change", payload: data } )
+                } )
+                .then(
+                    console.log( dispatch.singleContact )
+                )
+                .then(
+                    axios(
+                        {
+                            url: "http://localhost:3000/api/chat/getChats/",
+                            method: "GET",
+                            prams: {
+                                "name": ""
+                            }
+                        }
+                    ).then( res => {
+                        console.log( res )
+                    } )
+                )
+        }
     }
 
     const content = (
@@ -226,7 +253,7 @@ function ChatNav () {
             </div>
             <div className="user">
                 <div className="profile">
-                    <img className="profilePic" src={ data.info.avatar } alt="" />
+                    <img className="profilePic" src={ data.info.avatar } data-src="../../assets/loading.png" alt="" />
                     <div className="rightProfile">
                         <div className='userName'>
                             { data.info.username }

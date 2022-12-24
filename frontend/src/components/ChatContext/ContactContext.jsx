@@ -1,10 +1,11 @@
 import { createContext, useReducer } from 'react';
+import axios from 'axios';
+export const ContactContext = createContext();
 
-export const ChatContext = createContext();
+export const ContactContextProvider = ( { children } ) => {
 
-export const ChatContextProvider = ( { children } ) => {
     const init_state = {
-        singleContact: {}
+        allChat: []
     };
 
     const chatReducer = ( state, action ) => {
@@ -13,7 +14,7 @@ export const ChatContextProvider = ( { children } ) => {
                 console.log( state );
                 console.log( action.payload );
                 return {
-                    singleContact: action.payload
+                    allChat: action.payload
                 };
             default:
                 return state;
@@ -23,8 +24,8 @@ export const ChatContextProvider = ( { children } ) => {
     const [ state, dispatch ] = useReducer( chatReducer, init_state );
 
     return (
-        <ChatContext.Provider value={ { data: state, dispatch } }>
+        <ContactContext.Provider value={ { data: state, dispatch } }>
             { children }
-        </ChatContext.Provider>
+        </ContactContext.Provider>
     );
 }

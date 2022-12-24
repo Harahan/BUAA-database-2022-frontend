@@ -6,6 +6,7 @@ import { ChatContext } from '../ChatContext/ChatContext';
 import qs from 'qs'
 import "./chatSearch.css"
 import { useContext } from 'react';
+import { UserContext } from '../UserContext/UserContext';
 
 const { Search } = Input;
 
@@ -13,8 +14,9 @@ const { Search } = Input;
 function ChatSearch () {
     const [ allUsers, setAllUsers ] = useState( [] );
     const { dispatch } = useContext( ChatContext );
+    const { data } = useContext( UserContext );
 
-    useEffect( () => {
+    const getChats = () => {
         axios(
             {
                 url: "http://localhost:3000/api/chat/getChats/",
@@ -24,9 +26,33 @@ function ChatSearch () {
                 }
             }
         ).then( res => {
-            setAllUsers( res.data )
-            console.log( res )
+            let allContacts = res.data.map(
+                val => {
+                    let user = {};
+                    user.id = val.id;
+                    user.latest = val.latest;
+                    user.key = val.key;
+                    user.name = val.type === "group" ? val.name : val.owner;
+                    user.owner = val.owner;
+                    user.time = val.time;
+                    user.type = val.type;
+                    user.avatar = val.avatar;
+                    if ( val.type === "private" ) {
+                        let opp = val.users[ 0 ].username === data.info.username ?
+                            val.users[ 1 ] : val.users[ 0 ];
+                        console.log( opp );
+                        user.avatar = opp.avatar;
+                        user.name = opp.username;
+                    }
+                    return user
+                }
+            )
+            setAllUsers( allContacts );
         } );
+    }
+
+    useEffect( () => {
+        getChats()
     }, [] );
 
     const onSearch = ( value ) => {
@@ -91,7 +117,7 @@ function ChatSearch () {
                                 <div className="userChat" onClick={ () => onSelect( contact ) }>
                                     <img className="profilePic" src={ contact.avatar } alt="" />
                                     <div className="chatUserInfo">
-                                        <div className="span">{ contact.type === "private" ? contact.owner : contact.name }</div>
+                                        <div className="span">{ contact.name }</div>
                                         <div className="latestMsg">
                                             <div className="span">{ contact.latest.content }</div>
                                         </div>

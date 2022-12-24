@@ -1,5 +1,6 @@
 import React from 'react'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 import { useState, useEffect, useRef, useContext, notification } from 'react'
 import { Button, Input } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
@@ -13,6 +14,7 @@ const ChatBox = () => {
     const contentRef = useRef( null );
     const { data } = useContext( ChatContext );
     const ref = useRef();
+    const navigate = useNavigate();
 
     useEffect( () => {
         ref.current?.scrollIntoView( { behavior: "smooth" } );
@@ -42,32 +44,40 @@ const ChatBox = () => {
                 } );
             }
         )
-    }, [ data.singleContact.id ] );
+    }, [ data.singleContact ] );
 
     const sendMessage = () => {
         let formData = new FormData();
         formData.append( "id", data.singleContact.id );
         formData.append( "content", messageContent );
-        console.log( messageContent );
-        axios(
-            {
-                url: "http://localhost:3000/api/chat/sendRecord/",
-                method: "POST",
-                data: formData,
-            }
-        ).then( res => {
-            setAllMessages( res.data );
-            console.log( res.data );
-            // console.log( res.data.slice().reverse() );
-        } ).catch(
-            err => {
-                console.log( err );
-                notification[ 'error' ]( {
-                    message: 'Error entering chat',
-                } );
-            }
-        )
+        if ( messageContent.length === 0 ) {
+            alert( "Empty messages not allowed" )
+        } else {
+            axios(
+                {
+                    url: "http://localhost:3000/api/chat/sendRecord/",
+                    method: "POST",
+                    data: formData,
+                }
+            ).then( res => {
+                setAllMessages( res.data );
+                console.log( res.data );
+                // console.log( res.data.slice().reverse() );
+            } ).catch(
+                err => {
+                    console.log( err );
+                    notification[ 'error' ]( {
+                        message: 'Error entering chat',
+                    } );
+                }
+            )
+        }
         setMessageContent( '' );
+    }
+
+    const handleClickPhoto = () => {
+        console.log( data.singleContact.name )
+        navigate( '/profile/' + data.singleContact.owner )
     }
 
     return (
@@ -81,6 +91,7 @@ const ChatBox = () => {
                         type="text"
                         size={ 'large' }
                         icon={ <UserOutlined /> }
+                        onClick={ handleClickPhoto }
                     />
                 </div>
             </div>

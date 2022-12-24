@@ -12,7 +12,7 @@ import './BlogEditor.css'
 import { UserContext } from '../UserContext/UserContext';
 
 
-export default function BlogEditor ( { oriHtml, oriTitle } ) {
+export default function BlogEditor ( { oriHtml, oriTitle, oriCover } ) {
     const [ title, setTitle ] = useState( oriTitle );
     const [ editor, setEditor ] = useState( null );
     const [ tags, setTags ] = useState( [ 'some tag' ] );
@@ -43,7 +43,7 @@ export default function BlogEditor ( { oriHtml, oriTitle } ) {
         formData.append( "html", htmlFile );
         formData.append( "tags", tags );
         formData.append( "title", title );
-        formData.append( "cover", firstPic === null ? "" : firstPic );
+        formData.append( "cover", firstPic === null ? ( oriCover ) : firstPic );
         console.log( firstPic );
         axios(
             {
