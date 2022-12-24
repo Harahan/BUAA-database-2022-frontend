@@ -47,7 +47,7 @@ export default function BlogEditor ( { oriHtml, oriTitle, oriCover } ) {
         console.log( firstPic );
         axios(
             {
-                url: "http://localhost:3000/api/blog/postArticle/",
+                url: "http://39.106.5.232:3000/api/blog/postArticle/",
                 method: "POST",
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -83,7 +83,7 @@ export default function BlogEditor ( { oriHtml, oriTitle, oriCover } ) {
             } else {
                 axios(
                     {
-                        url: "http://localhost:3000/api/blog/uploadPicture/",
+                        url: "http://39.106.5.232:3000/api/blog/uploadPicture/",
                         method: "POST",
                         headers: {
                             'Content-Type': 'multipart/form-data'
@@ -133,7 +133,7 @@ export default function BlogEditor ( { oriHtml, oriTitle, oriCover } ) {
             } else {
                 axios(
                     {
-                        url: "http://localhost:3000/api/blog/uploadVideo/",
+                        url: "http://39.106.5.232:3000/api/blog/uploadVideo/",
                         method: "POST",
                         headers: {
                             'Content-Type': 'multipart/form-data'

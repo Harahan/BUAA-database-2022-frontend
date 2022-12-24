@@ -67,7 +67,7 @@ function ChatNav () {
     const getContacts = () => {
         axios(
             {
-                url: "http://localhost:3000/api/user/getContacts/",
+                url: "http://39.106.5.232:3000/api/user/getContacts/",
                 method: "GET",
             }
         ).then( res => {
@@ -108,7 +108,7 @@ function ChatNav () {
                 .then(
                     axios(
                         {
-                            url: "http://localhost:3000/api/chat/getChats/",
+                            url: "http://39.106.5.232:3000/api/chat/getChats/",
                             method: "GET",
                             prams: {
                                 "name": ""

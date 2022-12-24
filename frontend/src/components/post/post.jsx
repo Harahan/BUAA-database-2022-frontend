@@ -53,7 +53,7 @@ export default function Post ( { authorName, releaseTime, categories, title, dig
             } ),
         } ).then( res => res.json() ).then( data => {
             fetch(
-                data[ 0 ].html.replace( '39.106.5.232', 'localhost:3000/link' ), {
+                data[ 0 ].html.replace( '39.106.5.232:3000', '39.106.5.232:3000/api' ), {
                 method: 'get',
                 responseType: 'blob'
             } ).then(

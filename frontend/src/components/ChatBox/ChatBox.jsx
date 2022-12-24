@@ -27,7 +27,7 @@ const ChatBox = () => {
     useEffect( () => {
         axios(
             {
-                url: "http://localhost:3000/api/chat/getRecords/",
+                url: "http://39.106.5.232:3000/api/chat/getRecords/",
                 method: "GET",
                 params: {
                     id: data.singleContact.id,
@@ -55,7 +55,7 @@ const ChatBox = () => {
         } else {
             axios(
                 {
-                    url: "http://localhost:3000/api/chat/sendRecord/",
+                    url: "http://39.106.5.232:3000/api/chat/sendRecord/",
                     method: "POST",
                     data: formData,
                 }
