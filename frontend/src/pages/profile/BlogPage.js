@@ -5,7 +5,9 @@ import Iconify from './Iconify';
 import { BlogPostCard, BlogPostsSort, BlogPostsSearch } from './blog';
 import { useState, useEffect } from 'react';
 import qs from 'qs';
+import { useNavigate } from 'react-router-dom';
 export default function BlogPage({ username, modifiable }) {
+    const navigate = useNavigate();
     const SORT_OPTIONS = [
         { value: 'latest', label: 'Latest' },
         { value: 'oldest', label: 'Oldest' },
@@ -37,7 +39,9 @@ export default function BlogPage({ username, modifiable }) {
                     <Typography variant="h4" gutterBottom>
                         Blog
                     </Typography>
-                    {modifiable ? <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
+                    {modifiable ? <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />} onClick={() => {
+                        navigate('/write')
+                    }}>
                         New Post
                     </Button> : null}
                 </Stack>
