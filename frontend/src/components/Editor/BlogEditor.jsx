@@ -15,7 +15,7 @@ import { UserContext } from '../UserContext/UserContext';
 export default function BlogEditor ( { oriHtml, oriTitle, oriCover, oriTags } ) {
     const [ title, setTitle ] = useState( oriTitle );
     const [ editor, setEditor ] = useState( null );
-    const [ tags, setTags ] = useState( [ oriTags ] );
+    const [ tags, setTags ] = useState( oriTags );
     const [ inputVisible, setInputVisible ] = useState( false );
     const [ inputValue, setInputValue ] = useState( '' );
     const [ editInputIndex, setEditInputIndex ] = useState( -1 );
