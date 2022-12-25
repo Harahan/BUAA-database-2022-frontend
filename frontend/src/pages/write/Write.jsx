@@ -8,7 +8,7 @@ const Write = ( props ) => {
     const params = useParams();
     const [ html_content, setHtml_content ] = useState( "" );
     const [ cover, setCover ] = useState( "" );
-    const [ tags, setTags ] = [ 'Technology', 'Food', 'Music', 'Business', 'MoviesTV', 'Sport' ];
+    const [ tags, setTags ] = useState( [ 'Technology', 'Food', 'Music', 'Business', 'MoviesTV', 'Sport' ] );
     useEffect(
         () => {
             fetch( `/api/blog/fetchOne/`, {
