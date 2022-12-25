@@ -31,13 +31,14 @@ const Write = ( props ) => {
                             article.html = html_data;
                             setCover( article.cover );
                             setTags( data[ 0 ].categories );
+                            console.log( data[ 0 ].categories );
                             setHtml_content( article.html );
                             // console.log( article.html )
                         } )
                     }
                 )
             } )
-        }, []
+        }, [ params ]
     )
     return (
         <div className="Write">
