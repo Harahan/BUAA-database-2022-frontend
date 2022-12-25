@@ -8,6 +8,7 @@ const Write = ( props ) => {
     const params = useParams();
     const [ html_content, setHtml_content ] = useState( "" );
     const [ cover, setCover ] = useState( "" );
+    const [ tags, setTags ] = [ 'Technology', 'Food', 'Music', 'Business', 'MoviesTV', 'Sport' ];
     fetch( `/api/blog/fetchOne/`, {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -16,6 +17,7 @@ const Write = ( props ) => {
             tit: params.title
         } ),
     } ).then( res => res.json() ).then( data => {
+        setTags( data[ 0 ].categories );
         fetch(
             data[ 0 ].html.replace( '39.106.5.232', '39.106.5.232:3000/api' ), {
             method: 'get',
@@ -39,6 +41,7 @@ const Write = ( props ) => {
                 oriHtml={ params ? html_content : props.oriHtml }
                 oriTitle={ params ? params.title : props.oriTitle }
                 oriCover={ cover }
+                oriTags={ tags }
             />
         </div>
     );
