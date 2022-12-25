@@ -1,7 +1,7 @@
 import BlogEditor from "../../components/Editor/BlogEditor";
 import { useParams } from 'react-router-dom';
 import { useState } from "react";
-
+import { useEffect } from "react";
 import qs from 'qs'
 
 const Write = ( props ) => {
@@ -9,32 +9,36 @@ const Write = ( props ) => {
     const [ html_content, setHtml_content ] = useState( "" );
     const [ cover, setCover ] = useState( "" );
     const [ tags, setTags ] = [ 'Technology', 'Food', 'Music', 'Business', 'MoviesTV', 'Sport' ];
-    fetch( `/api/blog/fetchOne/`, {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: qs.stringify( {
-            author_Name: params.authorName,
-            tit: params.title
-        } ),
-    } ).then( res => res.json() ).then( data => {
-        setTags( data[ 0 ].categories );
-        fetch(
-            data[ 0 ].html.replace( '39.106.5.232', '39.106.5.232:3000/api' ), {
-            method: 'get',
-            responseType: 'blob'
-        } ).then(
-            res => {
-                // console.log( res )
-                let article = data[ 0 ];
-                res.text().then( html_data => {
-                    article.html = html_data;
-                    setCover( article.cover );
-                    setHtml_content( article.html );
-                    // console.log( article.html )
-                } )
-            }
-        )
-    } )
+    useEffect(
+        () => {
+            fetch( `/api/blog/fetchOne/`, {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: qs.stringify( {
+                    author_Name: params.authorName,
+                    tit: params.title
+                } ),
+            } ).then( res => res.json() ).then( data => {
+                setTags( data[ 0 ].categories );
+                fetch(
+                    data[ 0 ].html.replace( '39.106.5.232', '39.106.5.232:3000/api' ), {
+                    method: 'get',
+                    responseType: 'blob'
+                } ).then(
+                    res => {
+                        // console.log( res )
+                        let article = data[ 0 ];
+                        res.text().then( html_data => {
+                            article.html = html_data;
+                            setCover( article.cover );
+                            setHtml_content( article.html );
+                            // console.log( article.html )
+                        } )
+                    }
+                )
+            } )
+        }, []
+    )
     return (
         <div className="Write">
             <BlogEditor
