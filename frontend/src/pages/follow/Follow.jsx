@@ -50,7 +50,7 @@ export default function Follow() {
                             </span>
                         ),
                         key: '2',
-                        children: <GoodList />,
+                        children: <GoodList follow={true} />,
                     },
                     {
                         label: (

@@ -5,12 +5,12 @@ import GoodItem from "../../components/GoodItem/GoodItem"
 import "./shop.css"
 import GoodList from '../../components/GoodList/GoodList'
 
-function Shop () {
+function Shop() {
     return (
         <div className="shop">
             <h1 className='shopTitle'>Shop</h1>
             <div className="goodsList">
-                <GoodList />
+                <GoodList follow={false} />
             </div>
         </div>
     )
