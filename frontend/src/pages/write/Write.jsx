@@ -11,7 +11,8 @@ const Write = ( props ) => {
     const [ tags, setTags ] = useState( [] );
     useEffect(
         () => {
-            if ( params ) {
+            console.log( params );
+            if ( params.length > 0 ) {
                 fetch( `/api/blog/fetchOne/`, {
                     method: "POST",
                     headers: { "Content-Type": "application/x-www-form-urlencoded" },
