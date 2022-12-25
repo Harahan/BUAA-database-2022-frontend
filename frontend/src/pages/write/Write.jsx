@@ -11,33 +11,35 @@ const Write = ( props ) => {
     const [ tags, setTags ] = useState( [] );
     useEffect(
         () => {
-            fetch( `/api/blog/fetchOne/`, {
-                method: "POST",
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: qs.stringify( {
-                    author_Name: params.authorName,
-                    tit: params.title
-                } ),
-            } ).then( res => res.json() ).then( data => {
-                fetch(
-                    data[ 0 ].html.replace( '39.106.5.232', '39.106.5.232:3000/api' ), {
-                    method: 'get',
-                    responseType: 'blob'
-                } ).then(
-                    res => {
-                        // console.log( res )
-                        let article = data[ 0 ];
-                        res.text().then( html_data => {
-                            article.html = html_data;
-                            setCover( article.cover );
-                            setTags( data[ 0 ].categories );
-                            console.log( data[ 0 ].categories );
-                            setHtml_content( article.html );
-                            // console.log( article.html )
-                        } )
-                    }
-                )
-            } )
+            if ( params ) {
+                fetch( `/api/blog/fetchOne/`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                    body: qs.stringify( {
+                        author_Name: params.authorName,
+                        tit: params.title
+                    } ),
+                } ).then( res => res.json() ).then( data => {
+                    fetch(
+                        data[ 0 ].html.replace( '39.106.5.232', '39.106.5.232:3000/api' ), {
+                        method: 'get',
+                        responseType: 'blob'
+                    } ).then(
+                        res => {
+                            // console.log( res )
+                            let article = data[ 0 ];
+                            res.text().then( html_data => {
+                                article.html = html_data;
+                                setCover( article.cover );
+                                setTags( data[ 0 ].categories );
+                                console.log( data[ 0 ].categories );
+                                setHtml_content( article.html );
+                                // console.log( article.html )
+                            } )
+                        }
+                    )
+                } )
+            }
         }, [ params ]
     )
     return (
