@@ -20,6 +20,7 @@ export default function Home () {
         <div >
             <Header />
             <Search
+	    	className="search"
                 placeholder="input search text"
                 allowClear
                 enterButton="Search"

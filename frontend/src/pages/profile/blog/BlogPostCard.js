@@ -67,7 +67,21 @@ export default function BlogPostCard({ post, index }) {
         tit: post.title,
       }),
     }).then(res => res.json()).then(data => {
-      navigate('/postpage', { state: data[0] })
+      fetch(
+        data[0].html.replace('39.106.5.232', '39.106.5.232:3000/api'), {
+        method: 'get',
+        responseType: 'blob'
+      }).then(
+        res => {
+          let article = data[0];
+          console.log(article)
+          res.text().then(html_data => {
+            article.html = html_data;
+            console.log(article.html);
+            navigate('/postpage', { state: article })
+          })
+        }
+      )
     })
   }
   return (

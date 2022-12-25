@@ -1,8 +1,12 @@
-
+.GoodList {
+    display: grid;
+    width: 100%;
+    padding: 1%;
+    grid-template-columns: 50% 50%;
+}
 .goodsList {
     width: 80vw;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
     height: auto;
     place-items: center;
 }
